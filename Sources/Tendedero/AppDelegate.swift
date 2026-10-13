@@ -720,7 +720,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
         hover.state = Self.opensFromMenuBar ? .on : .off
         options.addItem(hover)
-        let swipe = ClosureMenuItem(L("When the pointer swipes down")) {
+        let swipe = ClosureMenuItem(L("When the pointer swipes down or up")) {
             AppDelegate.swipeFromMenuBar.toggle()
         }
         swipe.state = Self.swipeFromMenuBar ? .on : .off
