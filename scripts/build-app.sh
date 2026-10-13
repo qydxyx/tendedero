@@ -11,17 +11,20 @@ VERSION="1.6.0"
 # Builds one architecture and prints the binary's path.
 # The Command Line Tools for macOS 27 ship an SDK whose SwiftUI needs a macro
 # plugin they do not include. If the default SDK fails, fall back to the
-# newest macOS 26 SDK installed alongside it.
+# newest macOS 26 SDK installed alongside it. The default swiftbuild engine
+# also fails to start on those tools ("Unknown error parsing property list");
+# --build-system native is the llbuild path that still compiles.
 build_arch() {
   local triple="$1-apple-macosx14.0"
-  if [ -z "${SDKROOT:-}" ] && ! swift build -c "$CONFIG" --triple "$triple" >&2; then
+  local extra=(--build-system native)
+  if [ -z "${SDKROOT:-}" ] && ! swift build -c "$CONFIG" --triple "$triple" "${extra[@]}" >&2; then
     FALLBACK="$(ls -d /Library/Developer/CommandLineTools/SDKs/MacOSX26*.sdk 2>/dev/null | sort -V | tail -1)"
     if [ -z "$FALLBACK" ]; then exit 1; fi
     echo "Retrying with $FALLBACK" >&2
     export SDKROOT="$FALLBACK"
   fi
-  if [ -n "${SDKROOT:-}" ]; then swift build -c "$CONFIG" --triple "$triple" >&2; fi
-  cp "$(swift build -c "$CONFIG" --triple "$triple" --show-bin-path)/Tendedero" "$OUT/Tendedero-$1"
+  if [ -n "${SDKROOT:-}" ]; then swift build -c "$CONFIG" --triple "$triple" "${extra[@]}" >&2; fi
+  cp "$(swift build -c "$CONFIG" --triple "$triple" "${extra[@]}" --show-bin-path)/Tendedero" "$OUT/Tendedero-$1"
 }
 
 # A universal binary, so it runs on Apple silicon and on Intel Macs, from
