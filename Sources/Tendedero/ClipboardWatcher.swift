@@ -50,6 +50,7 @@ final class ClipboardWatcher {
         let timer = Timer(timeInterval: 0.5, repeats: true) { [weak self] _ in
             MainActor.assumeIsolated { self?.check() }
         }
+        timer.tolerance = 0.15
         RunLoop.main.add(timer, forMode: .common)
         self.timer = timer
     }

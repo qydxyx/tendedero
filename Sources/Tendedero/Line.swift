@@ -7,6 +7,8 @@ let log = Logger(subsystem: "app.tendedero.Tendedero", category: "line")
 
 /// One screenshot hanging on the line.
 struct Pegged: Identifiable, Equatable {
+    private static let inboxPrefix = Inbox.folder.standardizedFileURL.path + "/"
+
     let id = UUID()
     let url: URL
     var thumb: NSImage
@@ -16,7 +18,16 @@ struct Pegged: Identifiable, Equatable {
     /// Still flying in from where it was captured; the card waits hidden.
     var flying = false
     /// A screen recording rather than a screenshot.
-    var isRecording: Bool { Tendedero.isRecording(url) }
+    let isRecording: Bool
+    /// Whether the file lives in Tendedero's own folder.
+    let inInbox: Bool
+
+    init(url: URL, thumb: NSImage) {
+        self.url = url
+        self.thumb = thumb
+        self.isRecording = Tendedero.isRecording(url)
+        self.inInbox = url.standardizedFileURL.path.hasPrefix(Self.inboxPrefix)
+    }
 
     static func == (a: Pegged, b: Pegged) -> Bool {
         a.id == b.id && a.falling == b.falling && a.flying == b.flying && a.thumb === b.thumb
@@ -27,13 +38,20 @@ struct Pegged: Identifiable, Equatable {
 /// The files never move. The line is only a view onto them.
 @MainActor
 final class Line: ObservableObject {
-    @Published private(set) var items: [Pegged] = []
+    @Published private(set) var items: [Pegged] = [] {
+        didSet { updateGust() }
+    }
     @Published private(set) var gust = 0
     @Published var copiedID: UUID?
     @Published var draggingID: UUID?
     @Published var pressedID: UUID?
     /// Whether the line has slid down into view.
-    @Published var revealed = false
+    @Published var revealed = false {
+        didSet {
+            if revealed != oldValue { updateGust() }
+        }
+    }
+    private var gustWork: DispatchWorkItem?
 
     /// Card frames in window coordinates, reported by the views. The panel
     /// uses them to only catch clicks over photos and let the rest through.
@@ -70,7 +88,7 @@ final class Line: ObservableObject {
 
     init() {
         restore()
-        scheduleGust()
+        updateGust()
     }
 
     // MARK: Hanging and dropping
@@ -201,8 +219,7 @@ final class Line: ObservableObject {
     /// to the Trash, or the folder would fill up with forgotten screenshots.
     /// Files anywhere else, like the Desktop, stay where they are.
     func isInInbox(_ id: UUID) -> Bool {
-        guard let item = items.first(where: { $0.id == id }) else { return false }
-        return item.url.standardizedFileURL.path.hasPrefix(Inbox.folder.standardizedFileURL.path + "/")
+        items.first(where: { $0.id == id })?.inInbox ?? false
     }
 
     /// The corner cross and "Take down" both end up here.
@@ -299,14 +316,31 @@ final class Line: ObservableObject {
 
     // MARK: Breeze
 
+    private func updateGust() {
+        if revealed && !items.isEmpty {
+            if gustWork == nil { scheduleGust() }
+        } else {
+            gustWork?.cancel()
+            gustWork = nil
+        }
+    }
+
     /// Every so often a little wind moves the line. It is the detail that
     /// makes it feel like an object and not a widget.
     private func scheduleGust() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 7...16)) { [weak self] in
-            guard let self else { return }
-            if !self.items.isEmpty && self.draggingID == nil { self.gust += 1 }
-            self.scheduleGust()
+        gustWork?.cancel()
+        guard revealed, !items.isEmpty else {
+            gustWork = nil
+            return
         }
+        let work = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            self.gustWork = nil
+            if self.revealed && !self.items.isEmpty && self.draggingID == nil { self.gust += 1 }
+            self.updateGust()
+        }
+        gustWork = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + .random(in: 7...16), execute: work)
     }
 
     // MARK: Persistence

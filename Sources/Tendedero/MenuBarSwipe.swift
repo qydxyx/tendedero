@@ -72,7 +72,7 @@ final class MenuBarSwipe {
 
         if !tracking, phase.contains(.began) || phase.contains(.changed) {
             let mouse = NSEvent.mouseLocation
-            if let screen = NSScreen.screens.first(where: { NSMouseInRect(mouse, AppDelegate.menuBarBand(of: $0), false) }) {
+            if let screen = NSScreen.screens.first(where: { AppDelegate.isMouseInMenuBar(mouse, of: $0) }) {
                 tracking = true
                 fired = false
                 accum = 0
@@ -81,7 +81,6 @@ final class MenuBarSwipe {
         }
 
         guard tracking, !fired, phase.contains(.began) || phase.contains(.changed) else { return }
-        guard !Self.popupMenuIsOpen() else { return }
         guard abs(event.scrollingDeltaY) >= abs(event.scrollingDeltaX) else { return }
 
         // scrollingDeltaY follows content scrolling. Natural scrolling
@@ -91,12 +90,12 @@ final class MenuBarSwipe {
         // physicalY < 0: fingers moved down. Net down is positive accum.
         accum += -physicalY
 
-        guard let screen = startScreen else { return }
+        guard let screen = startScreen, abs(accum) >= Self.threshold else { return }
+        guard !Self.popupMenuIsOpen() else { return }
+        fired = true
         if accum >= Self.threshold {
-            fired = true
             onSwipe?(.down, screen)
-        } else if accum <= -Self.threshold {
-            fired = true
+        } else {
             onSwipe?(.up, screen)
         }
     }
