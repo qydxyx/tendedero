@@ -270,6 +270,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     /// An empty line goes away, unless it was opened on purpose.
     private func itemsChanged() {
         updateStatusIcon()
+        updateMouseTracking()
         guard line.liveCount == 0, !keepOpen else { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { [weak self] in
             guard let self, self.line.liveCount == 0, !self.keepOpen else { return }
@@ -368,7 +369,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
         // The cursor is watched while there is a line, even tucked away,
         // to notice it pushing against the top edge.
-        if wanted { startMouseTracking() } else { stopMouseTracking() }
+        updateMouseTracking()
     }
 
     private func present() {
@@ -428,6 +429,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 refresh()
             }
         }
+        updateMouseTracking()
     }
 
     @objc private func toggle() {
@@ -444,11 +446,22 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
 
+    private var lastMouse = NSPoint(x: CGFloat.nan, y: CGFloat.nan)
+
+    private func updateMouseTracking() {
+        if wanted && (isRevealed || (Self.opensFromMenuBar && line.liveCount > 0)) {
+            startMouseTracking()
+        } else {
+            stopMouseTracking()
+        }
+    }
+
     private func startMouseTracking() {
         guard mouseTimer == nil else { return }
         let timer = Timer(timeInterval: 1.0 / 30.0, repeats: true) { [weak self] _ in
             MainActor.assumeIsolated { self?.tick() }
         }
+        timer.tolerance = 0.01
         RunLoop.main.add(timer, forMode: .common)
         mouseTimer = timer
     }
@@ -456,6 +469,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private func stopMouseTracking() {
         mouseTimer?.invalidate()
         mouseTimer = nil
+        hotZoneSince = nil
+        lastMouse = NSPoint(x: CGFloat.nan, y: CGFloat.nan)
         panel.ignoresMouseEvents = true
     }
 
@@ -472,13 +487,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         return NSRect(x: screen.frame.minX, y: screen.frame.maxY - h, width: screen.frame.width, height: h)
     }
 
+    /// Fast bounds check before reading `visibleFrame` (which queries WindowServer).
+    static func isMouseInMenuBar(_ mouse: NSPoint, of screen: NSScreen) -> Bool {
+        let frame = screen.frame
+        guard mouse.x >= frame.minX, mouse.x < frame.maxX,
+              mouse.y >= frame.maxY - 64, mouse.y <= frame.maxY else { return false }
+        return NSMouseInRect(mouse, menuBarBand(of: screen), false)
+    }
+
     /// A click anywhere in the top bar of any screen, a menu or an icon, puts the line away.
     private func watchMenuBarClicks() {
         let handler: (NSEvent?) -> Void = { [weak self] _ in
             MainActor.assumeIsolated {
                 guard let self else { return }
                 let p = NSEvent.mouseLocation
-                guard NSScreen.screens.contains(where: { NSMouseInRect(p, Self.menuBarBand(of: $0), false) }) else { return }
+                guard NSScreen.screens.contains(where: { Self.isMouseInMenuBar(p, of: $0) }) else { return }
                 self.menuBarSuppressed = true
                 self.hotZoneSince = nil
                 if self.isRevealed {
@@ -533,13 +556,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         guard isRevealed else { return }
         menuBarSuppressed = true
         hotZoneSince = nil
-        pinned = false
         setRevealed(false)
-        if line.liveCount == 0 {
-            keepOpen = false
-            wanted = false
-            refresh()
-        }
     }
 
     /// How long the cursor is away before the line tucks back up.
@@ -549,34 +566,45 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let mouse = NSEvent.mouseLocation
         let now = Date()
 
-        let screenUnderPointer = NSScreen.screens.first { NSMouseInRect(mouse, $0.frame, false) }
-        let inMenuBar = screenUnderPointer.map { NSMouseInRect(mouse, Self.menuBarBand(of: $0), false) } ?? false
-        if !inMenuBar { menuBarSuppressed = false }
-
         guard isRevealed else {
             // Resting in the menu bar brings the line down on that screen.
             // Pushing against the top edge is part of it, and it also works
             // when another display sits above and the pointer never stops.
-            // An empty line stays up there: only the shortcut and the menu
-            // bring it down on purpose.
-            if line.liveCount > 0, Self.opensFromMenuBar, let screen = screenUnderPointer,
-               inMenuBar, !menuBarSuppressed, !FullScreen.blocksLine(on: screen) {
-                let since = hotZoneSince ?? now
-                hotZoneSince = since
-                if now.timeIntervalSince(since) >= Self.revealDelay {
-                    hotZoneSince = nil
-                    if panel.screen != screen {
-                        panel.placeOnScreen()
-                        updateCapacity()
+            // An empty line stays up there: only the shortcut, a swipe, and
+            // the menu bring it down on purpose.
+            guard line.liveCount > 0, Self.opensFromMenuBar else {
+                hotZoneSince = nil
+                return
+            }
+            if mouse == lastMouse, hotZoneSince == nil { return }
+            lastMouse = mouse
+
+            let screenUnderPointer = NSScreen.screens.first { Self.isMouseInMenuBar(mouse, of: $0) }
+            if screenUnderPointer == nil { menuBarSuppressed = false }
+
+            if let screen = screenUnderPointer, !menuBarSuppressed {
+                if let since = hotZoneSince {
+                    if now.timeIntervalSince(since) >= Self.revealDelay {
+                        hotZoneSince = nil
+                        guard !FullScreen.blocksLine(on: screen) else { return }
+                        if panel.screen != screen {
+                            panel.placeOnScreen()
+                            updateCapacity()
+                        }
+                        refresh()
+                        reveal()
                     }
-                    refresh()
-                    reveal()
+                } else if !FullScreen.blocksLine(on: screen) {
+                    hotZoneSince = now
                 }
             } else {
                 hotZoneSince = nil
             }
             return
         }
+
+        let inMenuBar = NSScreen.screens.contains { Self.isMouseInMenuBar(mouse, of: $0) }
+        if !inMenuBar { menuBarSuppressed = false }
 
         updateMousePassThrough(mouse)
 
@@ -734,8 +762,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         let bringDown = NSMenuItem(title: L("Bring the line down"), action: nil, keyEquivalent: "")
         let options = NSMenu()
-        let hover = ClosureMenuItem(L("When the pointer rests in the menu bar")) {
+        let hover = ClosureMenuItem(L("When the pointer rests in the menu bar")) { [weak self] in
             AppDelegate.opensFromMenuBar.toggle()
+            self?.updateMouseTracking()
         }
         hover.state = Self.opensFromMenuBar ? .on : .off
         options.addItem(hover)

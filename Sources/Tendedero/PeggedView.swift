@@ -30,6 +30,13 @@ struct PeggedView: View {
         .onAppear(perform: arrive)
         .onChange(of: item.flying) { was, now in if was && !now { land() } }
         .onChange(of: line.gust) { _, _ in breeze() }
+        .onChange(of: line.revealed) { _, revealed in
+            if !revealed && swing != 0 {
+                var t = Transaction()
+                t.disablesAnimations = true
+                withTransaction(t) { swing = 0 }
+            }
+        }
         .onChange(of: copied) { _, isCopied in if isCopied { nudge(3) } }
     }
 
@@ -88,7 +95,7 @@ struct PeggedView: View {
                 // Drawn here, clicked through GrabView, which sits on top. A
                 // cross sends a file in Tendedero's folder to the Trash; for a
                 // file anywhere else it only hides it from the line.
-                Image(systemName: line.isInInbox(item.id) ? "xmark" : "eye.slash")
+                Image(systemName: item.inInbox ? "xmark" : "eye.slash")
                     .font(.system(size: 8, weight: .bold))
                     .foregroundStyle(.primary)
                     .frame(width: 20, height: 20)
@@ -126,7 +133,7 @@ struct PeggedView: View {
 
     private func arrive() {
         // A capture that flew in is already in place; the flight did the arriving.
-        if item.flying {
+        if item.flying || !line.revealed {
             arrived = true
             return
         }
@@ -141,15 +148,24 @@ struct PeggedView: View {
     }
 
     private func breeze() {
+        guard line.revealed else { return }
         let delay = Double.random(in: 0...0.35)
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            guard line.revealed else { return }
             nudge(Double.random(in: 1.6...3.4))
         }
     }
 
     private func nudge(_ degrees: Double) {
+        guard line.revealed else { return }
         withAnimation(.easeOut(duration: 0.3)) { swing = degrees }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            guard line.revealed else {
+                var t = Transaction()
+                t.disablesAnimations = true
+                withTransaction(t) { swing = 0 }
+                return
+            }
             withAnimation(.interpolatingSpring(stiffness: 38, damping: 2.4)) { swing = 0 }
         }
     }
