@@ -27,7 +27,7 @@
 ## Longe da vista. Ao alcance da mão.
 
 Cada captura de tela que você faz fica pendurada num varal logo acima da tela.
-Pare o ponteiro na barra de menus e o varal desce. Afaste-o e ele some.
+Pare o ponteiro no meio da barra de menus e o varal desce. Afaste-o e ele some.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="../images/pt-BR/demo-dark.gif">
@@ -56,7 +56,13 @@ Pare o ponteiro na barra de menus e o varal desce. Afaste-o e ele some.
 | Arrastar para um app | Envia uma cópia. Ela continua no varal. |
 | Arrastar para uma pasta | Guarda a imagem ali. Ela sai do varal. |
 | Arrastar para o Lixo, ou clicar no X | Desapegue. |
-| Parar o ponteiro na barra de menus | Baixa o varal naquela tela. |
+| <kbd>⌘</kbd>&thinsp;<kbd>Z</kbd> com o ponteiro no varal | Pendura de volta o que você acabou de soltar. |
+| <kbd>Espaço</kbd> com o ponteiro numa foto | Dê uma olhada rápida. |
+| <kbd>⌫</kbd> com o ponteiro numa foto | Solte-a, como o botão do canto dela. |
+| Clique com o botão direito e Fixar | Guarde-a: fica à esquerda do nó com um prendedor cinza-espacial, e nenhuma captura nova a empurra. |
+| Clique com o botão direito e Segurar | Tire-a do varal e mantenha-a à sua frente enquanto trabalha. |
+| No Finder, clique com o botão direito numa imagem e Pendurar no Tendedero | Pendure qualquer imagem no varal, fixada. |
+| Parar o ponteiro no meio da barra de menus | Baixa o varal naquela tela. |
 | Deslizar dois dedos para baixo na barra de menus | Baixa o varal naquela tela e o deixa lá. |
 | Deslizar dois dedos para cima na barra de menus | Recolhe o varal. |
 | Clicar em qualquer lugar da barra de menus | Recolhe o varal. |
@@ -99,7 +105,7 @@ O Tendedero roda inteiramente no seu Mac, e suas capturas nunca saem dele.
 | | |
 |:--|:--|
 | **Compatibilidade** | macOS 14 Sonoma ou posterior, em Macs com Apple silicon e Intel. Projetado para o macOS 27. |
-| **Tamanho** | 1,7 MB |
+| **Tamanho** | 3,5 MB |
 | **Idiomas** | Inglês, espanhol, galego, francês, português (Brasil), japonês, coreano, chinês simplificado, turco, azerbaijano e híndi |
 | **Feito com** | Swift, AppKit e SwiftUI |
 | **Acesso à rede** | Nenhum |

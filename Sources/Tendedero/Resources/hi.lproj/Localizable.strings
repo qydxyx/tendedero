@@ -10,6 +10,7 @@
 "Hide line" = "रस्सी छिपाएँ";
 "Show line" = "रस्सी दिखाएँ";
 "Take everything down" = "सब उतार दें";
+"Put back" = "वापस टाँगें";
 "Handle screenshots" = "स्क्रीनशॉट संभालें";
 "Screenshots hang instantly and skip the Desktop" = "स्क्रीनशॉट तुरंत टँगते हैं और डेस्कटॉप पर नहीं जाते";
 "Open screenshots folder" = "स्क्रीनशॉट फ़ोल्डर खोलें";
@@ -67,3 +68,11 @@
 
 /* PeggedView */
 "Copied" = "कॉपी हो गया";
+
+/* Pinning and holding photos */
+"Pin" = "पिन करें";
+"Unpin" = "पिन हटाएँ";
+"Hold" = "हाथ में लें";
+"Hang back" = "रस्सी पर लौटाएँ";
+"Hang everything back" = "सब रस्सी पर लौटाएँ";
+"Actual Size" = "असली आकार";

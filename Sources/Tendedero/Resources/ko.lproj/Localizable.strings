@@ -8,6 +8,7 @@
 "Hide line" = "빨랫줄 가리기";
 "Show line" = "빨랫줄 보기";
 "Take everything down" = "모두 걷어내기";
+"Put back" = "다시 걸기";
 "Handle screenshots" = "스크린샷 관리";
 "Screenshots hang instantly and skip the Desktop" = "스크린샷이 바로 걸리고 데스크탑을 거치지 않아요";
 "Open screenshots folder" = "스크린샷 폴더 열기";
@@ -65,3 +66,11 @@
 
 /* PeggedView */
 "Copied" = "복사됨";
+
+/* Pinning and holding photos */
+"Pin" = "고정하기";
+"Unpin" = "고정 해제";
+"Hold" = "손에 들기";
+"Hang back" = "줄에 돌려놓기";
+"Hang everything back" = "모두 줄에 돌려놓기";
+"Actual Size" = "실제 크기";

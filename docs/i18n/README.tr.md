@@ -27,7 +27,7 @@
 ## Gözden uzak. Her an erişilebilir.
 
 Aldığınız her ekran görüntüsü, ekranınızın hemen üstündeki bir ipe asılır.
-İşaretçiyi menü çubuğuna götürün, ip aşağı süzülür. Uzaklaşın, kaybolur.
+İşaretçiyi menü çubuğunun ortasına götürün, ip aşağı süzülür. Uzaklaşın, kaybolur.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="../images/tr/demo-dark.gif">
@@ -56,7 +56,13 @@ Aldığınız her ekran görüntüsü, ekranınızın hemen üstündeki bir ipe 
 | Uygulamaya sürükle | Bir kopya gönderir. İpte kalmaya devam eder. |
 | Klasöre sürükle | Orada saklar. İpten ayrılır. |
 | Çöp Kutusu'na sürükle ya da çarpıya tıkla | Siler. |
-| İşaretçiyi menü çubuğunda bırak | O ekranda ipi aşağı indirir. |
+| İşaretçi ipin üzerindeyken <kbd>⌘</kbd>&thinsp;<kbd>Z</kbd> | Az önce bıraktığını geri asar. |
+| İşaretçi bir fotoğrafın üzerindeyken <kbd>Boşluk</kbd> | Hızlıca bak. |
+| İşaretçi bir fotoğrafın üzerindeyken <kbd>⌫</kbd> | Köşedeki düğmesi gibi bırak. |
+| Sağ tıkla, Sabitle | Sakla: düğümün solunda uzay grisi bir mandalla asılı kalır, yeni ekran görüntüleri onu itmez. |
+| Sağ tıkla, Elinde tut | İpten al ve çalışırken önünde tut. |
+| Finder’da bir görsele sağ tıkla, Tendedero’ya as | Herhangi bir görseli ipe sabitlenmiş olarak as. |
+| İşaretçiyi menü çubuğunun ortasında bırak | O ekranda ipi aşağı indirir. |
 | Menü çubuğunda iki parmakla aşağı kaydır | O ekranda ipi aşağı indirir ve orada tutar. |
 | Menü çubuğunda iki parmakla yukarı kaydır | İpi geri kaldırır. |
 | Menü çubuğunda herhangi bir yere tıkla | İpi geri kaldırır. |
@@ -98,7 +104,7 @@ Tendedero tamamen Mac'inizde çalışır ve ekran görüntüleriniz hiçbir zama
 | | |
 |:--|:--|
 | **Uyumluluk** | macOS 14 Sonoma veya sonrası, Apple silicon ve Intel. macOS 27 için tasarlandı. |
-| **Boyut** | 1,7 MB |
+| **Boyut** | 3,5 MB |
 | **Diller** | İngilizce, İspanyolca, Galiçyaca, Fransızca, Portekizce (Brezilya), Japonca, Korece, Basitleştirilmiş Çince, Türkçe, Azerice, Hintçe |
 | **Yapıldığı teknolojiler** | Swift, AppKit ve SwiftUI |
 | **Ağ erişimi** | Yok |

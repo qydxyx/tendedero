@@ -8,6 +8,7 @@
 "Hide line" = "ロープを非表示";
 "Show line" = "ロープを表示";
 "Take everything down" = "すべて外す";
+"Put back" = "掛け直す";
 "Handle screenshots" = "スクリーンショットを任せる";
 "Screenshots hang instantly and skip the Desktop" = "撮った瞬間に吊るされ、デスクトップを経由しません";
 "Open screenshots folder" = "スクリーンショットのフォルダを開く";
@@ -65,3 +66,11 @@
 
 /* PeggedView */
 "Copied" = "コピーしました";
+
+/* Pinning and holding photos */
+"Pin" = "ピン留め";
+"Unpin" = "ピン留めを外す";
+"Hold" = "手に取る";
+"Hang back" = "ロープに戻す";
+"Hang everything back" = "すべてロープに戻す";
+"Actual Size" = "実際のサイズ";

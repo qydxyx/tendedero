@@ -10,6 +10,7 @@
 "Hide line" = "Hide line";
 "Show line" = "Show line";
 "Take everything down" = "Take everything down";
+"Put back" = "Put back";
 "Handle screenshots" = "Handle screenshots";
 "Screenshots hang instantly and skip the Desktop" = "Screenshots hang instantly and skip the Desktop";
 "Open screenshots folder" = "Open screenshots folder";
@@ -67,3 +68,11 @@
 
 /* PeggedView */
 "Copied" = "Copied";
+
+/* Pinning and holding photos */
+"Pin" = "Pin";
+"Unpin" = "Unpin";
+"Hold" = "Hold";
+"Hang back" = "Hang back";
+"Hang everything back" = "Hang everything back";
+"Actual Size" = "Actual Size";

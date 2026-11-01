@@ -8,6 +8,7 @@
 "Hide line" = "隐藏晾衣绳";
 "Show line" = "显示晾衣绳";
 "Take everything down" = "全部取下";
+"Put back" = "挂回去";
 "Handle screenshots" = "接管截图";
 "Screenshots hang instantly and skip the Desktop" = "截图即刻挂上，不再经过桌面";
 "Open screenshots folder" = "打开截图文件夹";
@@ -65,3 +66,11 @@
 
 /* PeggedView */
 "Copied" = "已复制";
+
+/* Pinning and holding photos */
+"Pin" = "固定";
+"Unpin" = "取消固定";
+"Hold" = "拿在手上";
+"Hang back" = "放回绳上";
+"Hang everything back" = "全部放回绳上";
+"Actual Size" = "实际大小";
