@@ -117,7 +117,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             workspace.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in
                 MainActor.assumeIsolated {
                     // Opened on purpose counts for the Space it was opened on.
-                    if name == NSWorkspace.activeSpaceDidChangeNotification { self?.openedOnPurpose = false }
+                    if name == NSWorkspace.activeSpaceDidChangeNotification {
+                        self?.openedOnPurpose = false
+                        self?.menuBarSuppressed = false
+                        self?.hotZoneSince = nil
+                        self?.panel.placeOnScreen()
+                    }
                     self?.refresh()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { self?.refresh() }
                 }
@@ -543,6 +548,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
         keepOpen = true
         wanted = true
+        openedOnPurpose = true
         panel.placeOnScreen(screen)
         updateCapacity()
         refresh()
@@ -588,7 +594,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                         hotZoneSince = nil
                         guard !FullScreen.blocksLine(on: screen) else { return }
                         if panel.screen != screen {
-                            panel.placeOnScreen()
+                            panel.placeOnScreen(screen)
                             updateCapacity()
                         }
                         refresh()
