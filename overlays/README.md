@@ -23,8 +23,8 @@ python3 overlays/apply-all.py
 
 `.github/workflows/sync-upstream.yml` fetches upstream `main` weekly (and on
 demand), copies this `overlays/` directory onto it, applies every overlay,
-and opens a pull request. If the hooks still match, it merges. If a hook
-moved, the job fails and the PR is left for a person.
+and opens a pull request. If a pull request cannot be opened, it copies the
+result onto `main`. If a hook moved, the job fails and an issue is opened.
 
 After a failed apply, update the matching `apply.py` against the new
 upstream file and re-run the workflow.

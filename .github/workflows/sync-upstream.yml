@@ -44,7 +44,7 @@ jobs:
           set -euo pipefail
           BRANCH="sync/upstream-${UPSTREAM_SHORT}"
           git checkout -B "$BRANCH" upstream/main
-          git checkout "origin/${DEFAULT_BRANCH}" -- overlays .github/workflows/sync-upstream.yml
+          git checkout "origin/${DEFAULT_BRANCH}" -- overlays .github/workflows/sync-upstream.yml .gitignore
           mkdir -p /tmp
           if python3 overlays/apply-all.py > /tmp/overlay-apply.log 2>&1; then
             echo "apply_ok=true" >> "$GITHUB_OUTPUT"
@@ -53,6 +53,8 @@ jobs:
             echo "apply_ok=false" >> "$GITHUB_OUTPUT"
             cat /tmp/overlay-apply.log
           fi
+          find . -name __pycache__ -type d -prune -exec rm -rf {} +
+          find . -name '*.pyc' -delete
           git add -A
           if git diff --cached --quiet && git diff --quiet; then
             echo "No overlay files to commit (apply may have failed before writing)."
@@ -70,7 +72,7 @@ jobs:
         if: steps.apply.outputs.apply_ok == 'true'
         run: swift build -c debug
 
-      - name: Push and open pull request
+      - name: Publish onto main
         if: steps.apply.outputs.apply_ok == 'true'
         run: |
           set -euo pipefail
@@ -79,12 +81,7 @@ jobs:
             exit 0
           fi
           git push -u origin HEAD:"${BRANCH}" --force
-          if gh pr view "${BRANCH}" --json number --jq .number >/dev/null 2>&1; then
-            echo "Pull request for ${BRANCH} already exists."
-          else
-            gh pr create --base "${DEFAULT_BRANCH}" --head "${BRANCH}" \
-              --title "Sync upstream ${UPSTREAM_SHORT}" \
-              --body "$(cat <<EOF
+          BODY="$(cat <<EOF
           ## What and why
 
           Replay local overlays onto [alejandrobujan/tendedero@${UPSTREAM_SHORT}](https://github.com/alejandrobujan/tendedero/commit/${UPSTREAM_SHA}).
@@ -96,10 +93,25 @@ jobs:
           \`swift build -c debug\` on the GitHub-hosted macOS runner.
           EOF
           )"
+          if gh pr view "${BRANCH}" --json number --jq .number >/dev/null 2>&1; then
+            echo "Pull request for ${BRANCH} already exists."
+            gh pr merge "${BRANCH}" --merge --delete-branch || true
+          elif gh pr create --base "${DEFAULT_BRANCH}" --head "${BRANCH}" \
+              --title "Sync upstream ${UPSTREAM_SHORT}" --body "$BODY"; then
+            gh pr merge "${BRANCH}" --merge --delete-branch || \
+              echo "Left the pull request open for a person to merge."
+          else
+            echo "Cannot open a pull request; copying the overlay tree onto ${DEFAULT_BRANCH}."
+            git checkout -B "${DEFAULT_BRANCH}" "origin/${DEFAULT_BRANCH}"
+            git checkout "${BRANCH}" -- .
+            git add -A
+            if git diff --cached --quiet; then
+              echo "Already up to date after checkout."
+            else
+              git commit -m "Apply overlays onto ${UPSTREAM_SHA}"
+              git push origin "${DEFAULT_BRANCH}"
+            fi
           fi
-          gh pr merge "${BRANCH}" --merge --delete-branch || \
-            gh pr merge "${BRANCH}" --auto --merge || \
-            echo "Left the pull request open for a person to merge."
 
       - name: Report a failed apply
         if: steps.apply.outputs.apply_ok != 'true'
@@ -117,12 +129,6 @@ jobs:
           \`\`\`
           EOF
           )"
-          if gh pr view "${BRANCH}" --json number --jq .number >/dev/null 2>&1; then
-            echo "Pull request already open."
-          else
-            gh pr create --base "${DEFAULT_BRANCH}" --head "${BRANCH}" \
-              --title "$TITLE" --body "$BODY" || true
-          fi
           gh issue list --search "$TITLE in:title" --json number --jq '.[0].number' | grep -q . || \
             gh issue create --title "$TITLE" --body "$BODY"
           exit 1
