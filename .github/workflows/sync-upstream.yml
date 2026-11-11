@@ -2,8 +2,8 @@ name: Sync upstream
 
 on:
   schedule:
-    # Morning UTC, once a day.
-    - cron: "0 8 * * *"
+    # Monday morning UTC, once a week.
+    - cron: "0 8 * * 1"
   workflow_dispatch:
 
 concurrency:

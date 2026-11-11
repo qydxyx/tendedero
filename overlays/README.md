@@ -21,7 +21,7 @@ python3 overlays/apply-all.py
 
 ## Sync
 
-`.github/workflows/sync-upstream.yml` fetches upstream `main` daily (and on
+`.github/workflows/sync-upstream.yml` fetches upstream `main` weekly (and on
 demand), copies this `overlays/` directory onto it, applies every overlay,
 and opens a pull request. If the hooks still match, it merges. If a hook
 moved, the job fails and the PR is left for a person.
