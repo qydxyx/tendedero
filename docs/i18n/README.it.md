@@ -66,6 +66,8 @@ Porta il puntatore al centro della barra dei menu e il filo scende. Allontanalo 
 | Nel Finder, clic destro su un’immagine o un file di testo, poi Appendi in Tendedero | Appendilo al filo, fissato. |
 | Fermare il puntatore su una foto, con Ingrandisci al passaggio attivo | La vedi più grande al centro dello schermo. |
 | Fermare il puntatore al centro della barra dei menu | Fa scendere il filo su quello schermo. |
+| Scorrere due dita verso il basso nella barra dei menu | Fa scendere il filo su quello schermo e lo lascia. |
+| Scorrere due dita verso l'alto nella barra dei menu | Ritira il filo. |
 | Fare clic in un punto qualsiasi della barra dei menu | Ritira il filo. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | Mostra o nasconde il filo. Si cambia in Scorciatoia, nella barra dei menu. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Cerca sul filo. |

@@ -66,6 +66,8 @@ Göstəricini menyu panelinin ortasında saxlayın, ip aşağı enir. Uzaqlaşd�
 | Finder-də şəklə və ya mətn faylına sağ klik, Tendedero-ya as | Onu ipə bərkidilmiş halda asın. |
 | Üzərinə gəldikdə böyüt aktiv olanda göstəricini şəklin üstündə saxlamaq | Şəkli ekranın ortasında daha böyük görürsünüz. |
 | Göstəricini menyu panelinin ortasında saxlamaq | İpi həmin ekranda endirir. |
+| Menyu panelində iki barmaqla aşağı sürüşdürmək | İpi həmin ekranda endirir və orada saxlayır. |
+| Menyu panelində iki barmaqla yuxarı sürüşdürmək | İpi yığır. |
 | Menyu panelində istənilən yerə klik | İpi yığır. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | İpi göstərir və ya gizlədir. Menyu panelində Qısayol bölməsindən dəyişdirmək olar. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | İpdə axtarır. |

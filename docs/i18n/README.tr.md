@@ -66,6 +66,8 @@ Aldığınız her ekran görüntüsü ve kopyaladığınız her şey, ekranını
 | Finder’da bir görsele ya da metin dosyasına sağ tıkla, Tendedero’ya as | İpe sabitlenmiş olarak as. |
 | Üzerine gelince büyüt açıkken işaretçiyi bir fotoğrafın üzerinde bırak | Ekranın ortasında daha büyük gör. |
 | İşaretçiyi menü çubuğunun ortasında bırak | O ekranda ipi aşağı indirir. |
+| Menü çubuğunda iki parmakla aşağı kaydır | O ekranda ipi aşağı indirir ve orada tutar. |
+| Menü çubuğunda iki parmakla yukarı kaydır | İpi geri kaldırır. |
 | Menü çubuğunda herhangi bir yere tıkla | İpi geri kaldırır. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | İpi gösterir ya da gizler. Menü çubuğundaki Kısayol bölümünden değiştirilebilir. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | İpte ara. |

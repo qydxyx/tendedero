@@ -1,0 +1,128 @@
+name: Sync upstream
+
+on:
+  schedule:
+    # Morning UTC, once a day.
+    - cron: "0 8 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: sync-upstream
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  sync:
+    runs-on: macos-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      UPSTREAM: https://github.com/alejandrobujan/tendedero.git
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch upstream
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add upstream "$UPSTREAM" 2>/dev/null || git remote set-url upstream "$UPSTREAM"
+          git fetch --no-tags origin
+          git fetch --no-tags upstream main
+          echo "UPSTREAM_SHA=$(git rev-parse upstream/main)" >> "$GITHUB_ENV"
+          echo "UPSTREAM_SHORT=$(git rev-parse --short upstream/main)" >> "$GITHUB_ENV"
+          echo "DEFAULT_BRANCH=${{ github.event.repository.default_branch }}" >> "$GITHUB_ENV"
+
+      - name: Apply overlays onto upstream
+        id: apply
+        run: |
+          set -euo pipefail
+          BRANCH="sync/upstream-${UPSTREAM_SHORT}"
+          git checkout -B "$BRANCH" upstream/main
+          git checkout "origin/${DEFAULT_BRANCH}" -- overlays .github/workflows/sync-upstream.yml
+          mkdir -p /tmp
+          if python3 overlays/apply-all.py > /tmp/overlay-apply.log 2>&1; then
+            echo "apply_ok=true" >> "$GITHUB_OUTPUT"
+            cat /tmp/overlay-apply.log
+          else
+            echo "apply_ok=false" >> "$GITHUB_OUTPUT"
+            cat /tmp/overlay-apply.log
+          fi
+          git add -A
+          if git diff --cached --quiet && git diff --quiet; then
+            echo "No overlay files to commit (apply may have failed before writing)."
+          else
+            git commit -m "$(cat <<EOF
+          Apply overlays onto ${UPSTREAM_SHA}
+
+          Upstream: alejandrobujan/tendedero@${UPSTREAM_SHORT}
+          EOF
+          )"
+          fi
+          echo "BRANCH=$BRANCH" >> "$GITHUB_ENV"
+
+      - name: Build
+        if: steps.apply.outputs.apply_ok == 'true'
+        run: swift build -c debug
+
+      - name: Push and open pull request
+        if: steps.apply.outputs.apply_ok == 'true'
+        run: |
+          set -euo pipefail
+          if git diff --quiet "origin/${DEFAULT_BRANCH}"; then
+            echo "Already up to date with upstream ${UPSTREAM_SHORT}."
+            exit 0
+          fi
+          git push -u origin HEAD:"${BRANCH}" --force
+          if gh pr view "${BRANCH}" --json number --jq .number >/dev/null 2>&1; then
+            echo "Pull request for ${BRANCH} already exists."
+          else
+            gh pr create --base "${DEFAULT_BRANCH}" --head "${BRANCH}" \
+              --title "Sync upstream ${UPSTREAM_SHORT}" \
+              --body "$(cat <<EOF
+          ## What and why
+
+          Replay local overlays onto [alejandrobujan/tendedero@${UPSTREAM_SHORT}](https://github.com/alejandrobujan/tendedero/commit/${UPSTREAM_SHA}).
+
+          Overlays: menu-bar-swipe, space-join, local-build.
+
+          ## How you tested it
+
+          \`swift build -c debug\` on the GitHub-hosted macOS runner.
+          EOF
+          )"
+          fi
+          gh pr merge "${BRANCH}" --merge --delete-branch || \
+            gh pr merge "${BRANCH}" --auto --merge || \
+            echo "Left the pull request open for a person to merge."
+
+      - name: Report a failed apply
+        if: steps.apply.outputs.apply_ok != 'true'
+        run: |
+          set -euo pipefail
+          git push -u origin HEAD:"${BRANCH}" --force || true
+          TITLE="Upstream overlay apply failed on ${UPSTREAM_SHORT}"
+          BODY="$(cat <<EOF
+          Applying overlays onto alejandrobujan/tendedero@${UPSTREAM_SHA} failed.
+
+          A hook in \`overlays/*/apply.py\` no longer matches upstream. Update the overlay and re-run **Sync upstream**.
+
+          \`\`\`
+          $(tail -c 4000 /tmp/overlay-apply.log 2>/dev/null || echo "(no apply log)")
+          \`\`\`
+          EOF
+          )"
+          if gh pr view "${BRANCH}" --json number --jq .number >/dev/null 2>&1; then
+            echo "Pull request already open."
+          else
+            gh pr create --base "${DEFAULT_BRANCH}" --head "${BRANCH}" \
+              --title "$TITLE" --body "$BODY" || true
+          fi
+          gh issue list --search "$TITLE in:title" --json number --jq '.[0].number' | grep -q . || \
+            gh issue create --title "$TITLE" --body "$BODY"
+          exit 1

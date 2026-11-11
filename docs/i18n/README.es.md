@@ -66,6 +66,8 @@ Lleva el puntero al centro de la barra de menús y la cuerda baja. Apártalo y d
 | En el Finder, clic derecho en una imagen o un archivo de texto y Colgar en Tendedero | Cuélgalo en la cuerda, fijado. |
 | Dejar el puntero en una foto, con Ampliar al pasar el puntero activado | Mírala más grande en el centro de la pantalla. |
 | Dejar el puntero en el centro de la barra de menús | Baja la cuerda en esa pantalla. |
+| Deslizar dos dedos hacia abajo en la barra de menús | Baja la cuerda en esa pantalla y la deja ahí. |
+| Deslizar dos dedos hacia arriba en la barra de menús | Recoge la cuerda. |
 | Hacer clic en cualquier sitio de la barra de menús | Recoge la cuerda. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | Muestra u oculta la cuerda. Se cambia en Atajo, en la barra de menús. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Busca en la cuerda. |

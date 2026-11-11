@@ -66,6 +66,8 @@ Posez le pointeur au milieu de la barre des menus et la corde descend. Éloignez
 | Dans le Finder, clic droit sur une image ou un fichier texte, puis Accrocher dans Tendedero | Accrochez-le à la corde, épinglé. |
 | Poser le pointeur sur une photo, avec Agrandir au survol activé | L’affiche en plus grand au milieu de l’écran. |
 | Poser le pointeur au milieu de la barre des menus | Fait descendre la corde sur cet écran. |
+| Balayer vers le bas à deux doigts dans la barre des menus | Fait descendre la corde sur cet écran et la laisse. |
+| Balayer vers le haut à deux doigts dans la barre des menus | Range la corde. |
 | Cliquer n’importe où dans la barre des menus | La range. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | Affiche ou masque la corde. Modifiable dans Raccourci, dans la barre des menus. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Recherche sur la corde. |

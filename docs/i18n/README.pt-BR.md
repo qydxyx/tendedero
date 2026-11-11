@@ -66,6 +66,8 @@ Pare o ponteiro no meio da barra de menus e o varal desce. Afaste-o e ele some.
 | No Finder, clique com o botão direito numa imagem ou num arquivo de texto e Pendurar no Tendedero | Pendure-o no varal, fixado. |
 | Parar o ponteiro numa foto, com Ampliar ao passar o ponteiro ativado | Veja-a maior no meio da tela. |
 | Parar o ponteiro no meio da barra de menus | Baixa o varal naquela tela. |
+| Deslizar dois dedos para baixo na barra de menus | Baixa o varal naquela tela e o deixa lá. |
+| Deslizar dois dedos para cima na barra de menus | Recolhe o varal. |
 | Clicar em qualquer lugar da barra de menus | Recolhe o varal. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | Mostra ou oculta o varal. Altere em Atalho, na barra de menus. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Busca no varal. |

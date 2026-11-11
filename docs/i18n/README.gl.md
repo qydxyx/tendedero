@@ -66,6 +66,8 @@ Leva o punteiro ao centro da barra de menús e a corda baixa. Apártao e desapar
 | No Finder, clic dereito nunha imaxe ou nun ficheiro de texto e Pendurar en Tendedero | Pendúrao na corda, fixado. |
 | Deixar o punteiro nunha foto, con Ampliar ao pasar o punteiro activado | Míraa máis grande no centro da pantalla. |
 | Deixar o punteiro no centro da barra de menús | Baixa a corda nesa pantalla. |
+| Esvarar dous dedos cara abaixo na barra de menús | Baixa a corda nesa pantalla e déixaa aí. |
+| Esvarar dous dedos cara arriba na barra de menús | Recolle a corda. |
 | Facer clic en calquera sitio da barra de menús | Recolle a corda. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | Amosa ou oculta a corda. Cámbiase en Atallo, na barra de menús. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Busca na corda. |

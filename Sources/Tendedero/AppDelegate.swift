@@ -22,6 +22,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var noteWatcher: NoteWatcher!
     private var signalSources: [DispatchSourceSignal] = []
     private var hotKey: HotKey?
+    private var menuBarSwipe: MenuBarSwipe?
     /// ⌃⌥F searches the line. Fixed, apart from the shortcut that shows it.
     private var searchHotKey: HotKey?
     private var searchBar: SearchBar!
@@ -55,13 +56,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var openedOnPurpose = false
 
     // What brings the line down, from the menu bar's "Bring the line down".
-    // Out of the box, the first two are on and the third off.
+    // Out of the box, the first three are on and the last off.
 
-    /// Resting the pointer in the menu bar. Off, only the shortcut and the
-    /// menu open it.
+    /// Resting the pointer in the menu bar. Off, only the shortcut, a
+    /// swipe, and the menu open it.
     static var opensFromMenuBar: Bool {
         get { !UserDefaults.standard.bool(forKey: "menuBarRevealOff") }
         set { UserDefaults.standard.set(!newValue, forKey: "menuBarRevealOff") }
+    }
+
+    /// Two-finger swipe down in the menu bar brings the line down; swipe
+    /// up puts it away. Same switch.
+    static var swipeFromMenuBar: Bool {
+        get { !UserDefaults.standard.bool(forKey: "menuBarSwipeOff") }
+        set { UserDefaults.standard.set(!newValue, forKey: "menuBarSwipeOff") }
     }
 
     /// Something new hanging shows itself for a moment. Off, it hangs
@@ -94,6 +102,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         setUpStatusItem()
         watchMenuBarClicks()
+        watchMenuBarSwipe()
         watchPutBackKey()
 
         // Hang on Tendedero, in the menu of images in Finder and other apps.
@@ -128,7 +137,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             workspace.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in
                 MainActor.assumeIsolated {
                     // Opened on purpose counts for the Space it was opened on.
-                    if name == NSWorkspace.activeSpaceDidChangeNotification { self?.openedOnPurpose = false }
+                    if name == NSWorkspace.activeSpaceDidChangeNotification {
+                        self?.openedOnPurpose = false
+                        self?.menuBarSuppressed = false
+                        self?.hotZoneSince = nil
+                        self?.panel.placeOnScreen()
+                    }
                     self?.refresh()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                         self?.refresh()
@@ -699,6 +713,50 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             clickMonitors.append(local)
         }
     }
+
+    private func watchMenuBarSwipe() {
+        let swipe = MenuBarSwipe()
+        swipe.isEnabled = { AppDelegate.swipeFromMenuBar }
+        swipe.onSwipe = { [weak self] direction, screen in
+            switch direction {
+            case .down: self?.revealFromSwipe(on: screen)
+            case .up: self?.hideFromSwipe()
+            }
+        }
+        swipe.start()
+        menuBarSwipe = swipe
+    }
+
+    /// A two-finger swipe down from the menu bar, like opening the line on
+    /// purpose with the shortcut. It stays until the pointer has visited the
+    /// photos and left. Occupying the menu bar does not count as a visit.
+    /// Already down, it only pins.
+    private func revealFromSwipe(on screen: NSScreen) {
+        guard !FullScreen.blocksLine(on: screen) else { return }
+        menuBarSuppressed = false
+        if isRevealed {
+            pinned = true
+            return
+        }
+        keepOpen = true
+        wanted = true
+        openedOnPurpose = true
+        panel.placeOnScreen(screen)
+        updateCapacity()
+        refresh()
+        reveal(pinned: true)
+    }
+
+    /// Swipe up from the menu bar tucks the line away. The pointer is still
+    /// in the menu bar, so hover is held off until it leaves, as after a
+    /// click there.
+    private func hideFromSwipe() {
+        guard isRevealed else { return }
+        menuBarSuppressed = true
+        hotZoneSince = nil
+        setRevealed(false)
+    }
+
     /// How long the cursor is away before the line tucks back up.
     private static let retractDelay: TimeInterval = 0.5
 
@@ -720,8 +778,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             // that screen. Pushing against the top edge is part of it, and it
             // also works when another display sits above and the pointer
             // never stops.
-            // An empty line stays up there: only the shortcut and the menu
-            // bring it down on purpose.
+            // An empty line stays up there: only the shortcut, a swipe, and
+            // the menu bring it down on purpose.
             if line.liveCount > 0, Self.opensFromMenuBar, let screen = screenUnderPointer,
                inRevealBand, !menuBarSuppressed, !FullScreen.blocksLine(on: screen) {
                 let since = hotZoneSince ?? now
@@ -753,7 +811,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         // Delete type, and ⌘Z undoes typing.
         let searching = searchBar?.isShown == true
         let atUndoAnchor = isAtUndoAnchor(mouse)
-        if inside && pinned && !searching { pinned = false }
+        // Occupying the menu bar is not a visit to the line. A swipe-down
+        // (or the shortcut) while the pointer is still there stays pinned
+        // until the pointer has been over the photos, or an explicit hide.
+        if inside && !inMenuBar && pinned && !searching { pinned = false }
         holdPutBackKey((inside || atUndoAnchor) && !searching && !GrabView.isShowingMenu && !Share.shared.isOpen)
         holdPhotoKeys(over: inside && !searching ? photo(under: mouse) : nil)
         holdSelectionKeys(inside && !searching && !GrabView.isShowingMenu && !Share.shared.isOpen)
@@ -1179,6 +1240,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
         hover.state = Self.opensFromMenuBar ? .on : .off
         options.addItem(hover)
+        let swipe = ClosureMenuItem(L("When the pointer swipes down or up")) {
+            AppDelegate.swipeFromMenuBar.toggle()
+        }
+        swipe.state = Self.swipeFromMenuBar ? .on : .off
+        options.addItem(swipe)
         let peek = ClosureMenuItem(L("When something new hangs")) {
             AppDelegate.peeksAtNew.toggle()
         }

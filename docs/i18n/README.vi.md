@@ -66,6 +66,8 @@ Mỗi ảnh chụp màn hình bạn tạo ra, và mọi thứ bạn sao chép, �
 | Trong Finder, nhấp chuột phải vào ảnh hoặc tệp văn bản, chọn Treo lên Tendedero | Treo lên dây ở trạng thái đã ghim. |
 | Đặt con trỏ lên một ảnh khi đã bật Phóng to khi di chuột | Xem ảnh lớn hơn ở giữa màn hình. |
 | Đặt con trỏ ở giữa thanh menu | Kéo dây phơi xuống trên màn hình đó. |
+| Vuốt hai ngón xuống trên thanh menu | Kéo dây phơi xuống trên màn hình đó và giữ nguyên. |
+| Vuốt hai ngón lên trên thanh menu | Thu gọn dây phơi. |
 | Nhấp vào bất kỳ đâu trên thanh menu | Thu gọn dây phơi. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | Hiện hoặc ẩn dây phơi. Đổi phím tắt tại mục Phím tắt trên thanh menu. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Tìm trên dây phơi. |
