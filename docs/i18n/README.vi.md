@@ -70,7 +70,7 @@ Mỗi ảnh chụp màn hình bạn tạo ra, và mọi thứ bạn sao chép, �
 | Vuốt hai ngón lên trên thanh menu | Thu gọn dây phơi. |
 | Nhấp vào bất kỳ đâu trên thanh menu | Thu gọn dây phơi. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | Hiện hoặc ẩn dây phơi. Đổi phím tắt tại mục Phím tắt trên thanh menu. |
-| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Tìm trên dây phơi. |
+| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Tìm trên dây phơi. Đổi phím tắt tại mục Phím tắt trên thanh menu. |
 
 <br>
 

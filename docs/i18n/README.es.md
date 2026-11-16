@@ -70,7 +70,7 @@ Lleva el puntero al centro de la barra de menús y la cuerda baja. Apártalo y d
 | Deslizar dos dedos hacia arriba en la barra de menús | Recoge la cuerda. |
 | Hacer clic en cualquier sitio de la barra de menús | Recoge la cuerda. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | Muestra u oculta la cuerda. Se cambia en Atajo, en la barra de menús. |
-| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Busca en la cuerda. |
+| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Busca en la cuerda. Se cambia en Atajo, en la barra de menús. |
 
 <br>
 

@@ -70,7 +70,7 @@
 | メニューバーで二本指上スワイプ | ロープをしまう。 |
 | メニューバーのどこかをクリック | ロープをしまう。 |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | ロープを表示または非表示。メニューバーの「ショートカット」で変更できます。 |
-| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | ロープを検索。 |
+| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | ロープを検索。メニューバーの「ショートカット」で変更できます。 |
 
 <br>
 
