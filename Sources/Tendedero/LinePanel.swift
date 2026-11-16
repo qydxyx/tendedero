@@ -13,7 +13,7 @@ final class LinePanel: NSPanel {
         level = .floating
         // Every Space, full screen ones included. Whether the line comes down
         // over a full screen app is up to the user, see FullScreen.showLineOver.
-        collectionBehavior = [.canJoinAllSpaces, .stationary, .ignoresCycle, .fullScreenAuxiliary]
+        collectionBehavior = [.canJoinAllSpaces, .stationary, .ignoresCycle, .fullScreenAuxiliary, .canJoinAllApplications]
         hidesOnDeactivate = false
         isMovable = false
         becomesKeyOnlyIfNeeded = true
@@ -32,6 +32,11 @@ final class LinePanel: NSPanel {
         }
     }
 
+    override func orderFrontRegardless() {
+        collectionBehavior = [.canJoinAllSpaces, .stationary, .ignoresCycle, .fullScreenAuxiliary, .canJoinAllApplications]
+        super.orderFrontRegardless()
+    }
+
     override var canBecomeKey: Bool { false }
     override var canBecomeMain: Bool { false }
 
@@ -48,5 +53,6 @@ final class LinePanel: NSPanel {
         let target = NSRect(x: visible.minX, y: visible.maxY - Layout.panelHeight,
                             width: visible.width, height: Layout.panelHeight)
         if frame != target { setFrame(target, display: true) }
+        collectionBehavior = [.canJoinAllSpaces, .stationary, .ignoresCycle, .fullScreenAuxiliary, .canJoinAllApplications]
     }
 }
