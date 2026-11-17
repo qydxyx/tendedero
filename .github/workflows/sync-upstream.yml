@@ -80,6 +80,7 @@ jobs:
     runs-on: macos-latest
     env:
       GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
       UPSTREAM: https://github.com/alejandrobujan/tendedero.git
       UPSTREAM_TAG: ${{ needs.check.outputs.tag }}
       UPSTREAM_RELEASE_NAME: ${{ needs.check.outputs.release_name }}
@@ -224,14 +225,15 @@ jobs:
           EOF
           )"
 
-          if gh release view "${UPSTREAM_TAG}" >/dev/null 2>&1; then
-            git tag -f "${UPSTREAM_TAG}" "${TARGET_SHA}"
-            git push origin "refs/tags/${UPSTREAM_TAG}" --force
-            gh release upload "${UPSTREAM_TAG}" "${RUNNER_TEMP}/release-assets/"*.dmg --clobber
-            gh release edit "${UPSTREAM_TAG}" --title "$TITLE" --notes "$NOTES"
+          git tag -f "${UPSTREAM_TAG}" "${TARGET_SHA}"
+          git push origin "refs/tags/${UPSTREAM_TAG}" --force
+
+          if gh release view "${UPSTREAM_TAG}" --repo "${GITHUB_REPOSITORY}" >/dev/null 2>&1; then
+            gh release upload "${UPSTREAM_TAG}" "${RUNNER_TEMP}/release-assets/"*.dmg --repo "${GITHUB_REPOSITORY}" --clobber
+            gh release edit "${UPSTREAM_TAG}" --repo "${GITHUB_REPOSITORY}" --title "$TITLE" --notes "$NOTES"
           else
             gh release create "${UPSTREAM_TAG}" "${RUNNER_TEMP}/release-assets/"*.dmg \
-              --target "$TARGET_SHA" \
+              --repo "${GITHUB_REPOSITORY}" \
               --title "$TITLE" \
               --notes "$NOTES"
           fi
