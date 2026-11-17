@@ -2,9 +2,19 @@ name: Sync upstream
 
 on:
   schedule:
-    # Monday morning UTC, once a week.
-    - cron: "0 8 * * 1"
+    # Check twice a day (02:00 and 14:00 UTC) on ubuntu-latest; macOS only runs when upstream publishes a new app release.
+    - cron: "0 2,14 * * *"
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Upstream release tag to sync (leave empty for latest release)"
+        required: false
+        default: ""
+      force:
+        description: "Re-sync and rebuild even if this release already exists in our releases"
+        type: boolean
+        required: false
+        default: false
 
 concurrency:
   group: sync-upstream
@@ -16,34 +26,90 @@ permissions:
   issues: write
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      should_sync: ${{ steps.check.outputs.should_sync }}
+      tag: ${{ steps.check.outputs.tag }}
+      release_name: ${{ steps.check.outputs.release_name }}
+      release_url: ${{ steps.check.outputs.release_url }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      UPSTREAM_REPO: alejandrobujan/tendedero
+    steps:
+      - name: Check upstream latest release
+        id: check
+        run: |
+          set -euo pipefail
+          INPUT_TAG="${{ inputs.tag }}"
+          FORCE="${{ inputs.force }}"
+
+          if [ -n "$INPUT_TAG" ]; then
+            RELEASE_JSON="$(gh api "repos/${UPSTREAM_REPO}/releases/tags/${INPUT_TAG}")"
+          else
+            RELEASE_JSON="$(gh api "repos/${UPSTREAM_REPO}/releases/latest")"
+          fi
+
+          TAG="$(printf '%s' "$RELEASE_JSON" | jq -r '.tag_name')"
+          RELEASE_NAME="$(printf '%s' "$RELEASE_JSON" | jq -r '.name // .tag_name')"
+          RELEASE_URL="$(printf '%s' "$RELEASE_JSON" | jq -r '.html_url')"
+          HAS_APP="$(printf '%s' "$RELEASE_JSON" | jq -r '[.assets[].name | ascii_downcase | select(endswith(".dmg") or endswith(".zip") or endswith(".pkg"))] | length > 0')"
+
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "release_name=$RELEASE_NAME" >> "$GITHUB_OUTPUT"
+          echo "release_url=$RELEASE_URL" >> "$GITHUB_OUTPUT"
+
+          if [ "$HAS_APP" != "true" ]; then
+            echo "Upstream release ${TAG} has no installable app asset (.dmg/.zip/.pkg) yet; skipping."
+            echo "should_sync=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [ "$FORCE" != "true" ] && gh release view "$TAG" --repo "${GITHUB_REPOSITORY}" >/dev/null 2>&1; then
+            echo "Release ${TAG} already exists in ${GITHUB_REPOSITORY}; skipping."
+            echo "should_sync=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "New upstream app release detected: ${TAG} (${RELEASE_NAME})"
+          echo "should_sync=true" >> "$GITHUB_OUTPUT"
+
   sync:
+    needs: check
+    if: needs.check.outputs.should_sync == 'true'
     runs-on: macos-latest
     env:
       GH_TOKEN: ${{ github.token }}
       UPSTREAM: https://github.com/alejandrobujan/tendedero.git
+      UPSTREAM_TAG: ${{ needs.check.outputs.tag }}
+      UPSTREAM_RELEASE_NAME: ${{ needs.check.outputs.release_name }}
+      UPSTREAM_RELEASE_URL: ${{ needs.check.outputs.release_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Fetch upstream
+      - name: Fetch upstream release tag
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git remote add upstream "$UPSTREAM" 2>/dev/null || git remote set-url upstream "$UPSTREAM"
           git fetch --no-tags origin
-          git fetch --no-tags upstream main
-          echo "UPSTREAM_SHA=$(git rev-parse upstream/main)" >> "$GITHUB_ENV"
-          echo "UPSTREAM_SHORT=$(git rev-parse --short upstream/main)" >> "$GITHUB_ENV"
+          git fetch --no-tags --force upstream "refs/tags/${UPSTREAM_TAG}:refs/tags/upstream-${UPSTREAM_TAG}"
+          UPSTREAM_SHA="$(git rev-parse "refs/tags/upstream-${UPSTREAM_TAG}^{commit}")"
+          UPSTREAM_SHORT="$(git rev-parse --short "$UPSTREAM_SHA")"
+          echo "UPSTREAM_SHA=$UPSTREAM_SHA" >> "$GITHUB_ENV"
+          echo "UPSTREAM_SHORT=$UPSTREAM_SHORT" >> "$GITHUB_ENV"
           echo "DEFAULT_BRANCH=${{ github.event.repository.default_branch }}" >> "$GITHUB_ENV"
 
-      - name: Apply overlays onto upstream
+      - name: Apply overlays onto upstream release
         id: apply
         run: |
           set -euo pipefail
-          BRANCH="sync/upstream-${UPSTREAM_SHORT}"
-          git checkout -B "$BRANCH" upstream/main
+          BRANCH="sync/upstream-${UPSTREAM_TAG}"
+          git checkout -B "$BRANCH" "$UPSTREAM_SHA"
           git checkout "origin/${DEFAULT_BRANCH}" -- overlays .github/workflows/sync-upstream.yml .gitignore
           mkdir -p /tmp
           if python3 overlays/apply-all.py > /tmp/overlay-apply.log 2>&1; then
@@ -60,67 +126,124 @@ jobs:
             echo "No overlay files to commit (apply may have failed before writing)."
           else
             git commit -m "$(cat <<EOF
-          Apply overlays onto ${UPSTREAM_SHA}
+          Apply overlays onto ${UPSTREAM_TAG} (${UPSTREAM_SHA})
 
-          Upstream: alejandrobujan/tendedero@${UPSTREAM_SHORT}
+          Upstream: alejandrobujan/tendedero@${UPSTREAM_SHORT} (${UPSTREAM_TAG})
           EOF
           )"
           fi
           echo "BRANCH=$BRANCH" >> "$GITHUB_ENV"
 
-      - name: Build
+      - name: Build app and DMG
         if: steps.apply.outputs.apply_ok == 'true'
-        run: swift build -c debug
+        run: |
+          set -euo pipefail
+          bash scripts/make-dmg.sh
+          ASSET_DIR="${RUNNER_TEMP}/release-assets"
+          rm -rf "$ASSET_DIR"
+          mkdir -p "$ASSET_DIR"
+          cp build/*.dmg "$ASSET_DIR/"
+          ls -lh "$ASSET_DIR"
 
       - name: Publish onto main
+        id: publish
         if: steps.apply.outputs.apply_ok == 'true'
         run: |
           set -euo pipefail
           if git diff --quiet "origin/${DEFAULT_BRANCH}"; then
-            echo "Already up to date with upstream ${UPSTREAM_SHORT}."
+            echo "Already up to date with upstream ${UPSTREAM_TAG}."
+            echo "merged=true" >> "$GITHUB_OUTPUT"
+            echo "target_sha=$(git rev-parse "origin/${DEFAULT_BRANCH}")" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          git push -u origin HEAD:"${BRANCH}" --force
+
+          git push -u origin "HEAD:${BRANCH}" --force
           BODY="$(cat <<EOF
           ## What and why
 
-          Replay local overlays onto [alejandrobujan/tendedero@${UPSTREAM_SHORT}](https://github.com/alejandrobujan/tendedero/commit/${UPSTREAM_SHA}).
+          Replay local overlays onto upstream release [${UPSTREAM_TAG}](${UPSTREAM_RELEASE_URL}) ([alejandrobujan/tendedero@${UPSTREAM_SHORT}](https://github.com/alejandrobujan/tendedero/commit/${UPSTREAM_SHA})).
 
           Overlays: menu-bar-swipe, space-join, local-build.
 
           ## How you tested it
 
-          \`swift build -c debug\` on the GitHub-hosted macOS runner.
+          \`scripts/make-dmg.sh\` on the GitHub-hosted macOS runner.
           EOF
           )"
+
+          MERGED=false
           if gh pr view "${BRANCH}" --json number --jq .number >/dev/null 2>&1; then
             echo "Pull request for ${BRANCH} already exists."
-            gh pr merge "${BRANCH}" --merge --delete-branch || true
+            if gh pr merge "${BRANCH}" --merge --delete-branch; then
+              MERGED=true
+            fi
           elif gh pr create --base "${DEFAULT_BRANCH}" --head "${BRANCH}" \
-              --title "Sync upstream ${UPSTREAM_SHORT}" --body "$BODY"; then
-            gh pr merge "${BRANCH}" --merge --delete-branch || \
+              --title "Sync upstream ${UPSTREAM_TAG}" --body "$BODY"; then
+            if gh pr merge "${BRANCH}" --merge --delete-branch; then
+              MERGED=true
+            else
               echo "Left the pull request open for a person to merge."
+            fi
           else
-            echo "Cannot open a pull request; copying the overlay tree onto ${DEFAULT_BRANCH}."
+            echo "Cannot open a pull request; syncing the overlay tree onto ${DEFAULT_BRANCH}."
+            git push origin --delete "${BRANCH}" || true
             git checkout -B "${DEFAULT_BRANCH}" "origin/${DEFAULT_BRANCH}"
-            git checkout "${BRANCH}" -- .
-            git add -A
+            git read-tree --reset -u "${BRANCH}"
             if git diff --cached --quiet; then
               echo "Already up to date after checkout."
             else
-              git commit -m "Apply overlays onto ${UPSTREAM_SHA}"
+              git commit -m "Apply overlays onto ${UPSTREAM_TAG} (${UPSTREAM_SHA})"
               git push origin "${DEFAULT_BRANCH}"
             fi
+            MERGED=true
+          fi
+
+          if [ "$MERGED" = "true" ]; then
+            git fetch --no-tags origin "${DEFAULT_BRANCH}"
+            echo "merged=true" >> "$GITHUB_OUTPUT"
+            echo "target_sha=$(git rev-parse "origin/${DEFAULT_BRANCH}")" >> "$GITHUB_OUTPUT"
+          else
+            echo "merged=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create GitHub Release
+        if: steps.apply.outputs.apply_ok == 'true' && steps.publish.outputs.merged == 'true'
+        run: |
+          set -euo pipefail
+          TARGET_SHA="${{ steps.publish.outputs.target_sha }}"
+          TITLE="${UPSTREAM_RELEASE_NAME} (with local overlays)"
+          NOTES="$(cat <<EOF
+          Based on upstream release [${UPSTREAM_TAG}](${UPSTREAM_RELEASE_URL}) (\`${UPSTREAM_SHORT}\`).
+
+          Included overlays:
+          - \`menu-bar-swipe\`: Two-finger swipe down/up in the menu bar to show and hide the line
+          - \`space-join\`: \`canJoinAllApplications\` so the line stays on the active Space
+          - \`local-build\`: \`--build-system native\` for SwiftPM builds
+
+          > Note: Built and signed ad-hoc on GitHub Actions. If macOS Gatekeeper blocks opening, right-click → Open or run \`xattr -cr /Applications/Tendedero.app\`.
+          EOF
+          )"
+
+          if gh release view "${UPSTREAM_TAG}" >/dev/null 2>&1; then
+            git tag -f "${UPSTREAM_TAG}" "${TARGET_SHA}"
+            git push origin "refs/tags/${UPSTREAM_TAG}" --force
+            gh release upload "${UPSTREAM_TAG}" "${RUNNER_TEMP}/release-assets/"*.dmg --clobber
+            gh release edit "${UPSTREAM_TAG}" --title "$TITLE" --notes "$NOTES"
+          else
+            gh release create "${UPSTREAM_TAG}" "${RUNNER_TEMP}/release-assets/"*.dmg \
+              --target "$TARGET_SHA" \
+              --title "$TITLE" \
+              --notes "$NOTES"
           fi
 
       - name: Report a failed apply
         if: steps.apply.outputs.apply_ok != 'true'
         run: |
           set -euo pipefail
-          git push -u origin HEAD:"${BRANCH}" --force || true
-          TITLE="Upstream overlay apply failed on ${UPSTREAM_SHORT}"
+          git push -u origin "HEAD:${BRANCH}" --force || true
+          TITLE="Upstream overlay apply failed on ${UPSTREAM_TAG} (${UPSTREAM_SHORT})"
           BODY="$(cat <<EOF
-          Applying overlays onto alejandrobujan/tendedero@${UPSTREAM_SHA} failed.
+          Applying overlays onto upstream release [${UPSTREAM_TAG}](${UPSTREAM_RELEASE_URL}) (alejandrobujan/tendedero@${UPSTREAM_SHA}) failed.
 
           A hook in \`overlays/*/apply.py\` no longer matches upstream. Update the overlay and re-run **Sync upstream**.
 

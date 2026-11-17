@@ -21,10 +21,13 @@ python3 overlays/apply-all.py
 
 ## Sync
 
-`.github/workflows/sync-upstream.yml` fetches upstream `main` weekly (and on
-demand), copies this `overlays/` directory onto it, applies every overlay,
-and opens a pull request. If a pull request cannot be opened, it copies the
-result onto `main`. If a hook moved, the job fails and an issue is opened.
+`.github/workflows/sync-upstream.yml` checks upstream Releases twice a day (and on
+demand). When upstream publishes a new release with an installable app asset
+(`.dmg`/`.zip`/`.pkg`) that has not yet been released in this fork, it fetches
+that upstream release tag, copies this `overlays/` directory onto it, applies
+every overlay, builds the universal `.app` and `.dmg` via `scripts/make-dmg.sh`,
+merges the result onto `main`, and publishes a matching GitHub Release with the
+built `.dmg` installers. If a hook moved, the job fails and an issue is opened.
 
 After a failed apply, update the matching `apply.py` against the new
 upstream file and re-run the workflow.
