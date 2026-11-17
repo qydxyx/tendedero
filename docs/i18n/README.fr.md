@@ -70,7 +70,7 @@ Posez le pointeur au milieu de la barre des menus et la corde descend. Éloignez
 | Balayer vers le haut à deux doigts dans la barre des menus | Range la corde. |
 | Cliquer n’importe où dans la barre des menus | La range. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | Affiche ou masque la corde. Modifiable dans Raccourci, dans la barre des menus. |
-| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Recherche sur la corde. Modifiable dans Raccourci, dans la barre des menus. |
+| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Recherche sur la corde. |
 
 <br>
 
@@ -126,7 +126,7 @@ et rien de ce que vous accrochez ne le quitte jamais.
 | | |
 |:--|:--|
 | **Compatibilité** | macOS 14 Sonoma ou version ultérieure, sur Mac Apple silicon et Intel. Conçu pour macOS 27. |
-| **Taille** | 5,1 Mo |
+| **Taille** | 3,5 Mo |
 | **Langues** | Anglais, espagnol, galicien, français, portugais du Brésil, italien, japonais, coréen, chinois simplifié, turc, azerbaïdjanais, hindi et vietnamien |
 | **Conçu avec** | Swift, AppKit et SwiftUI |
 | **Accès au réseau** | Aucun |

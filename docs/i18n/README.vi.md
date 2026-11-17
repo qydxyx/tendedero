@@ -70,7 +70,7 @@ Mỗi ảnh chụp màn hình bạn tạo ra, và mọi thứ bạn sao chép, �
 | Vuốt hai ngón lên trên thanh menu | Thu gọn dây phơi. |
 | Nhấp vào bất kỳ đâu trên thanh menu | Thu gọn dây phơi. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | Hiện hoặc ẩn dây phơi. Đổi phím tắt tại mục Phím tắt trên thanh menu. |
-| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Tìm trên dây phơi. Đổi phím tắt tại mục Phím tắt trên thanh menu. |
+| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Tìm trên dây phơi. |
 
 <br>
 
@@ -123,7 +123,7 @@ và không gì bạn treo lên dây rời khỏi máy.
 | | |
 |:--|:--|
 | **Tương thích** | macOS 14 Sonoma trở lên, hỗ trợ Apple silicon và Intel. Thiết kế cho macOS 27. |
-| **Dung lượng** | 5,1 MB |
+| **Dung lượng** | 3,5 MB |
 | **Ngôn ngữ** | Tiếng Anh, Tây Ban Nha, Galicia, Pháp, Bồ Đào Nha (Brazil), Ý, Nhật, Hàn, Trung giản thể, Thổ Nhĩ Kỳ, Azerbaijan, Hindi, Việt |
 | **Công nghệ** | Swift, AppKit và SwiftUI |
 | **Truy cập mạng** | Không |

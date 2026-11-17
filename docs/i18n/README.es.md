@@ -70,7 +70,7 @@ Lleva el puntero al centro de la barra de menús y la cuerda baja. Apártalo y d
 | Deslizar dos dedos hacia arriba en la barra de menús | Recoge la cuerda. |
 | Hacer clic en cualquier sitio de la barra de menús | Recoge la cuerda. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | Muestra u oculta la cuerda. Se cambia en Atajo, en la barra de menús. |
-| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Busca en la cuerda. Se cambia en Atajo, en la barra de menús. |
+| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Busca en la cuerda. |
 
 <br>
 
@@ -125,7 +125,7 @@ y nada de lo que cuelgas sale nunca de él.
 | | |
 |:--|:--|
 | **Compatibilidad** | macOS 14 Sonoma o posterior, en Mac con Apple silicon o Intel. Pensado para macOS 27. |
-| **Tamaño** | 5,1 MB |
+| **Tamaño** | 3,5 MB |
 | **Idiomas** | Inglés, español, gallego, francés, portugués de Brasil, italiano, japonés, coreano, chino simplificado, turco, azerbaiyano, hindi y vietnamita |
 | **Hecho con** | Swift, AppKit y SwiftUI |
 | **Conexión a internet** | No la usa |

@@ -70,7 +70,7 @@ Pare o ponteiro no meio da barra de menus e o varal desce. Afaste-o e ele some.
 | Deslizar dois dedos para cima na barra de menus | Recolhe o varal. |
 | Clicar em qualquer lugar da barra de menus | Recolhe o varal. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | Mostra ou oculta o varal. Altere em Atalho, na barra de menus. |
-| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Busca no varal. Altere em Atalho, na barra de menus. |
+| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Busca no varal. |
 
 <br>
 
@@ -125,7 +125,7 @@ capturas, e nada do que você pendura sai dele.
 | | |
 |:--|:--|
 | **Compatibilidade** | macOS 14 Sonoma ou posterior, em Macs com Apple silicon e Intel. Projetado para o macOS 27. |
-| **Tamanho** | 5,1 MB |
+| **Tamanho** | 3,5 MB |
 | **Idiomas** | Inglês, espanhol, galego, francês, português (Brasil), italiano, japonês, coreano, chinês simplificado, turco, azerbaijano, híndi e vietnamita |
 | **Feito com** | Swift, AppKit e SwiftUI |
 | **Acesso à rede** | Nenhum |

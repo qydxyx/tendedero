@@ -68,7 +68,7 @@ Rest the pointer in the middle of the menu bar and it glides down. Move away and
 | Two-finger swipe up in the menu bar | Put it away. |
 | Click anything in the menu bar | Put it away. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | Show or hide the line. Change it under Shortcut in the menu bar. |
-| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Search the line. Change it under Shortcut in the menu bar. |
+| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Search the line. |
 
 <br>
 
@@ -123,7 +123,7 @@ and nothing you hang ever leaves it.
 | | |
 |:--|:--|
 | **Compatibility** | macOS 14 Sonoma or later, on Apple silicon and Intel. Designed for macOS 27. |
-| **Size** | 5.1 MB |
+| **Size** | 3.5 MB |
 | **Languages** | English, Spanish, Galician, French, Portuguese (Brazil), Italian, Japanese, Korean, Chinese (Simplified), Turkish, Azerbaijani, Hindi, Vietnamese |
 | **Built with** | Swift, AppKit and SwiftUI |
 | **Network access** | None |

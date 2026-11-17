@@ -70,7 +70,7 @@ Porta il puntatore al centro della barra dei menu e il filo scende. Allontanalo 
 | Scorrere due dita verso l'alto nella barra dei menu | Ritira il filo. |
 | Fare clic in un punto qualsiasi della barra dei menu | Ritira il filo. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | Mostra o nasconde il filo. Si cambia in Scorciatoia, nella barra dei menu. |
-| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Cerca sul filo. Si cambia in Scorciatoia, nella barra dei menu. |
+| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Cerca sul filo. |
 
 <br>
 
@@ -126,7 +126,7 @@ e nulla di ciò che appendi lo lascia mai.
 | | |
 |:--|:--|
 | **Compatibilità** | macOS 14 Sonoma o successivi, su Mac con Apple silicon o Intel. Pensata per macOS 27. |
-| **Dimensioni** | 5,1 MB |
+| **Dimensioni** | 3,5 MB |
 | **Lingue** | Inglese, spagnolo, galiziano, francese, portoghese (Brasile), italiano, giapponese, coreano, cinese semplificato, turco, azero, hindi e vietnamita |
 | **Realizzata con** | Swift, AppKit e SwiftUI |
 | **Accesso alla rete** | Nessuno |

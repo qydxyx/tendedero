@@ -26,12 +26,8 @@ final class Share: NSObject, NSSharingServicePickerDelegate, NSSharingServiceDel
 
     /// The share panel hangs from a view, and the photo's own view is gone
     /// once the line puts itself away. An invisible window in the card's
-    /// place holds the panel. Once a service is chosen, its window belongs
-    /// in the middle of that screen, not up against the card's screen edge.
-    private lazy var anchor = Self.makeAnchor()
-    private lazy var serviceAnchor = Self.makeAnchor()
-
-    private static func makeAnchor() -> NSWindow {
+    /// place holds the panel, and whatever the chosen service opens next to it.
+    private lazy var anchor: NSWindow = {
         let window = NSWindow(contentRect: .zero, styleMask: .borderless, backing: .buffered, defer: true)
         window.isOpaque = false
         window.backgroundColor = .clear
@@ -41,7 +37,7 @@ final class Share: NSObject, NSSharingServicePickerDelegate, NSSharingServiceDel
         // Above the line, which floats.
         window.level = NSWindow.Level(rawValue: NSWindow.Level.floating.rawValue + 1)
         return window
-    }
+    }()
 
     /// Shows the share panel for the photo at `url`, whose card is at
     /// `cardFrame` on screen.
@@ -78,7 +74,6 @@ final class Share: NSObject, NSSharingServicePickerDelegate, NSSharingServiceDel
 
     private func done() {
         anchor.orderOut(nil)
-        serviceAnchor.orderOut(nil)
         picker = nil
         isOpen = false
         safety?.invalidate()
@@ -136,22 +131,12 @@ final class Share: NSObject, NSSharingServicePickerDelegate, NSSharingServiceDel
     nonisolated func sharingService(_ sharingService: NSSharingService,
                                     sourceWindowForShareItems items: [Any],
                                     sharingContentScope: UnsafeMutablePointer<NSSharingService.SharingContentScope>) -> NSWindow? {
-        MainActor.assumeIsolated {
-            // Keep the picker's anchor at the photo. Moving that window while
-            // AppKit hands over to a service also moves the service's window.
-            let centre = NSPoint(x: anchor.frame.midX, y: anchor.frame.midY)
-            if let screen = NSScreen.screens.first(where: { NSMouseInRect(centre, $0.frame, false) }) ?? NSScreen.main {
-                let area = screen.visibleFrame
-                serviceAnchor.setFrame(NSRect(x: area.midX - 1, y: area.midY - 1, width: 2, height: 2), display: false)
-            }
-            serviceAnchor.orderFront(nil)
-            return serviceAnchor
-        }
+        MainActor.assumeIsolated { anchor }
     }
 
     nonisolated func sharingService(_ sharingService: NSSharingService,
                                     sourceFrameOnScreenForShareItem item: Any) -> NSRect {
-        MainActor.assumeIsolated { serviceAnchor.frame }
+        MainActor.assumeIsolated { anchor.frame }
     }
 
     nonisolated func sharingService(_ sharingService: NSSharingService, didShareItems items: [Any]) {

@@ -70,7 +70,7 @@ Aldığınız her ekran görüntüsü ve kopyaladığınız her şey, ekranını
 | Menü çubuğunda iki parmakla yukarı kaydır | İpi geri kaldırır. |
 | Menü çubuğunda herhangi bir yere tıkla | İpi geri kaldırır. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | İpi gösterir ya da gizler. Menü çubuğundaki Kısayol bölümünden değiştirilebilir. |
-| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | İpte ara. Menü çubuğundaki Kısayol bölümünden değiştirilebilir. |
+| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | İpte ara. |
 
 <br>
 
@@ -125,7 +125,7 @@ ve astığınız hiçbir şey oradan ayrılmaz.
 | | |
 |:--|:--|
 | **Uyumluluk** | macOS 14 Sonoma veya sonrası, Apple silicon ve Intel. macOS 27 için tasarlandı. |
-| **Boyut** | 5,1 MB |
+| **Boyut** | 3,5 MB |
 | **Diller** | İngilizce, İspanyolca, Galiçyaca, Fransızca, Portekizce (Brezilya), İtalyanca, Japonca, Korece, Basitleştirilmiş Çince, Türkçe, Azerice, Hintçe, Vietnamca |
 | **Yapıldığı teknolojiler** | Swift, AppKit ve SwiftUI |
 | **Ağ erişimi** | Yok |

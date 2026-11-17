@@ -70,7 +70,7 @@ Leva o punteiro ao centro da barra de menús e a corda baixa. Apártao e desapar
 | Esvarar dous dedos cara arriba na barra de menús | Recolle a corda. |
 | Facer clic en calquera sitio da barra de menús | Recolle a corda. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | Amosa ou oculta a corda. Cámbiase en Atallo, na barra de menús. |
-| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Busca na corda. Cámbiase en Atallo, na barra de menús. |
+| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Busca na corda. |
 
 <br>
 
@@ -125,7 +125,7 @@ e nada do que penduras sae nunca del.
 | | |
 |:--|:--|
 | **Compatibilidade** | macOS 14 Sonoma ou posterior, en Mac con Apple silicon ou Intel. Pensado para macOS 27. |
-| **Tamaño** | 5,1 MB |
+| **Tamaño** | 3,5 MB |
 | **Idiomas** | Inglés, español, galego, francés, portugués do Brasil, italiano, xaponés, coreano, chinés simplificado, turco, acerbaixano, hindi e vietnamita |
 | **Feito con** | Swift, AppKit e SwiftUI |
 | **Conexión a internet** | Non a usa |

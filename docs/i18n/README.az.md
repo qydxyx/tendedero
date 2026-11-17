@@ -70,7 +70,7 @@ Göstəricini menyu panelinin ortasında saxlayın, ip aşağı enir. Uzaqlaşd�
 | Menyu panelində iki barmaqla yuxarı sürüşdürmək | İpi yığır. |
 | Menyu panelində istənilən yerə klik | İpi yığır. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | İpi göstərir və ya gizlədir. Menyu panelində Qısayol bölməsindən dəyişdirmək olar. |
-| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | İpdə axtarır. Menyu panelində Qısayol bölməsindən dəyişdirmək olar. |
+| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | İpdə axtarır. |
 
 <br>
 
@@ -125,7 +125,7 @@ Mac-inizdə işləyir və asdığınız heç nə oradan heç vaxt çıxmır.
 | | |
 |:--|:--|
 | **Uyğunluq** | macOS 14 Sonoma və ya sonrakı, Apple silicon və Intel Mac-lərdə. macOS 27 üçün hazırlanıb. |
-| **Həcm** | 5,1 MB |
+| **Həcm** | 3,5 MB |
 | **Dillər** | İngilis, ispan, qalisiya, fransız, portuqal (Braziliya), italyan, yapon, koreya, sadələşdirilmiş Çin, türk, Azərbaycan, hind və Vyetnam dili |
 | **Nə ilə yazılıb** | Swift, AppKit və SwiftUI |
 | **İnternet bağlantısı** | İstifadə etmir |
