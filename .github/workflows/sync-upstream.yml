@@ -110,8 +110,12 @@ jobs:
         run: |
           set -euo pipefail
           BRANCH="sync/upstream-${UPSTREAM_TAG}"
-          git checkout -B "$BRANCH" "$UPSTREAM_SHA"
-          git checkout "origin/${DEFAULT_BRANCH}" -- overlays .github/workflows/sync-upstream.yml .gitignore
+          BASE_SHA="$(git rev-parse "origin/${DEFAULT_BRANCH}")"
+          BASE_TREE="$(git rev-parse "origin/${DEFAULT_BRANCH}^{tree}")"
+
+          git checkout --detach "$UPSTREAM_SHA"
+          rm -rf .github/workflows
+          git checkout "origin/${DEFAULT_BRANCH}" -- overlays .github/workflows .gitignore
           mkdir -p /tmp
           if python3 overlays/apply-all.py > /tmp/overlay-apply.log 2>&1; then
             echo "apply_ok=true" >> "$GITHUB_OUTPUT"
@@ -123,15 +127,23 @@ jobs:
           find . -name __pycache__ -type d -prune -exec rm -rf {} +
           find . -name '*.pyc' -delete
           git add -A
-          if git diff --cached --quiet && git diff --quiet; then
-            echo "No overlay files to commit (apply may have failed before writing)."
+          TREE="$(git write-tree)"
+          if [ "$TREE" = "$BASE_TREE" ]; then
+            echo "Tree already matches origin/${DEFAULT_BRANCH}; no new commit needed."
+            git checkout -B "$BRANCH" "$BASE_SHA"
           else
-            git commit -m "$(cat <<EOF
+            COMMIT_MSG="$(cat <<EOF
           Apply overlays onto ${UPSTREAM_TAG} (${UPSTREAM_SHA})
 
           Upstream: alejandrobujan/tendedero@${UPSTREAM_SHORT} (${UPSTREAM_TAG})
           EOF
           )"
+            if git merge-base --is-ancestor "$UPSTREAM_SHA" "$BASE_SHA"; then
+              SYNC_COMMIT="$(git commit-tree "$TREE" -p "$BASE_SHA" -m "$COMMIT_MSG")"
+            else
+              SYNC_COMMIT="$(git commit-tree "$TREE" -p "$BASE_SHA" -p "$UPSTREAM_SHA" -m "$COMMIT_MSG")"
+            fi
+            git checkout -B "$BRANCH" "$SYNC_COMMIT"
           fi
           echo "BRANCH=$BRANCH" >> "$GITHUB_ENV"
 
@@ -158,6 +170,7 @@ jobs:
             exit 0
           fi
 
+          HEAD_SHA="$(git rev-parse HEAD)"
           git push -u origin "HEAD:${BRANCH}" --force
           BODY="$(cat <<EOF
           ## What and why
@@ -172,40 +185,58 @@ jobs:
           EOF
           )"
 
-          MERGED=false
-          if gh pr view "${BRANCH}" --json number --jq .number >/dev/null 2>&1; then
-            echo "Pull request for ${BRANCH} already exists."
-            if gh pr merge "${BRANCH}" --merge --delete-branch; then
-              MERGED=true
-            fi
-          elif gh pr create --base "${DEFAULT_BRANCH}" --head "${BRANCH}" \
-              --title "Sync upstream ${UPSTREAM_TAG}" --body "$BODY"; then
-            if gh pr merge "${BRANCH}" --merge --delete-branch; then
-              MERGED=true
+          PR_NUMBER="$(gh pr list --repo "${GITHUB_REPOSITORY}" --head "${BRANCH}" --state open --json number --jq '.[0].number // empty')"
+          if [ -z "$PR_NUMBER" ]; then
+            if gh pr create --repo "${GITHUB_REPOSITORY}" --base "${DEFAULT_BRANCH}" --head "${BRANCH}" \
+                --title "Sync upstream ${UPSTREAM_TAG}" --body "$BODY"; then
+              PR_NUMBER="$(gh pr list --repo "${GITHUB_REPOSITORY}" --head "${BRANCH}" --state open --json number --jq '.[0].number // empty')"
             else
-              echo "Left the pull request open for a person to merge."
+              echo "Cannot open a pull request; pushing ${BRANCH} directly onto ${DEFAULT_BRANCH}."
+              git push origin "HEAD:refs/heads/${DEFAULT_BRANCH}"
+              git push origin --delete "${BRANCH}" || true
+              git fetch --no-tags origin "${DEFAULT_BRANCH}"
+              echo "merged=true" >> "$GITHUB_OUTPUT"
+              echo "target_sha=$(git rev-parse "origin/${DEFAULT_BRANCH}")" >> "$GITHUB_OUTPUT"
+              exit 0
             fi
           else
-            echo "Cannot open a pull request; syncing the overlay tree onto ${DEFAULT_BRANCH}."
-            git push origin --delete "${BRANCH}" || true
-            git checkout -B "${DEFAULT_BRANCH}" "origin/${DEFAULT_BRANCH}"
-            git read-tree --reset -u "${BRANCH}"
-            if git diff --cached --quiet; then
-              echo "Already up to date after checkout."
-            else
-              git commit -m "Apply overlays onto ${UPSTREAM_TAG} (${UPSTREAM_SHA})"
-              git push origin "${DEFAULT_BRANCH}"
-            fi
-            MERGED=true
+            echo "Pull request #${PR_NUMBER} for ${BRANCH} already exists."
           fi
 
-          if [ "$MERGED" = "true" ]; then
-            git fetch --no-tags origin "${DEFAULT_BRANCH}"
-            echo "merged=true" >> "$GITHUB_OUTPUT"
-            echo "target_sha=$(git rev-parse "origin/${DEFAULT_BRANCH}")" >> "$GITHUB_OUTPUT"
-          else
-            echo "merged=false" >> "$GITHUB_OUTPUT"
+          if [ -z "$PR_NUMBER" ]; then
+            echo "::error::Could not determine pull request number for ${BRANCH}."
+            exit 1
           fi
+
+          for i in $(seq 1 12); do
+            PR_STATE="$(gh pr view "${PR_NUMBER}" --repo "${GITHUB_REPOSITORY}" --json headRefOid,mergeable --jq '[.headRefOid, .mergeable] | join(" ")')"
+            PR_HEAD="${PR_STATE%% *}"
+            PR_MERGEABLE="${PR_STATE#* }"
+            echo "PR #${PR_NUMBER} check ${i}: head=${PR_HEAD} mergeable=${PR_MERGEABLE}"
+            if [ "$PR_HEAD" = "$HEAD_SHA" ] && [ "$PR_MERGEABLE" = "MERGEABLE" ]; then
+              break
+            fi
+            sleep 3
+          done
+
+          MERGED=false
+          for attempt in 1 2 3; do
+            if gh pr merge "${PR_NUMBER}" --repo "${GITHUB_REPOSITORY}" --merge --delete-branch; then
+              MERGED=true
+              break
+            fi
+            echo "Merge attempt ${attempt} failed; retrying in 5s..."
+            sleep 5
+          done
+
+          if [ "$MERGED" != "true" ]; then
+            echo "::error::Failed to merge PR #${PR_NUMBER} onto ${DEFAULT_BRANCH}."
+            exit 1
+          fi
+
+          git fetch --no-tags origin "${DEFAULT_BRANCH}"
+          echo "merged=true" >> "$GITHUB_OUTPUT"
+          echo "target_sha=$(git rev-parse "origin/${DEFAULT_BRANCH}")" >> "$GITHUB_OUTPUT"
 
       - name: Create GitHub Release
         if: steps.apply.outputs.apply_ok == 'true' && steps.publish.outputs.merged == 'true'
@@ -254,6 +285,6 @@ jobs:
           \`\`\`
           EOF
           )"
-          gh issue list --search "$TITLE in:title" --json number --jq '.[0].number' | grep -q . || \
-            gh issue create --title "$TITLE" --body "$BODY"
+          gh issue list --repo "${GITHUB_REPOSITORY}" --search "$TITLE in:title" --json number --jq '.[0].number' | grep -q . || \
+            gh issue create --repo "${GITHUB_REPOSITORY}" --title "$TITLE" --body "$BODY"
           exit 1
