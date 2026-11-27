@@ -12,7 +12,7 @@
   &nbsp;&nbsp;
   <a href="#compilar-dende-o-código">Compilar dende o código&nbsp;&rsaquo;</a>
   <br><br>
-  <a href="../../README.md">English</a>&nbsp;·&nbsp;<a href="README.es.md">Español</a>&nbsp;·&nbsp;Galego&nbsp;·&nbsp;<a href="README.fr.md">Français</a>&nbsp;·&nbsp;<a href="README.pt-BR.md">Português (Brasil)</a>&nbsp;·&nbsp;<a href="README.it.md">Italiano</a>&nbsp;·&nbsp;<a href="README.ja.md">日本語</a>&nbsp;·&nbsp;<a href="README.ko.md">한국어</a>&nbsp;·&nbsp;<a href="README.zh-Hans.md">简体中文</a>&nbsp;·&nbsp;<a href="README.tr.md">Türkçe</a>&nbsp;·&nbsp;<a href="README.az.md">Azərbaycanca</a>&nbsp;·&nbsp;<a href="README.hi.md">हिन्दी</a>&nbsp;·&nbsp;<a href="README.vi.md">Tiếng Việt</a>
+  <a href="../../README.md">English</a>&nbsp;·&nbsp;<a href="README.es.md">Español</a>&nbsp;·&nbsp;Galego&nbsp;·&nbsp;<a href="README.fr.md">Français</a>&nbsp;·&nbsp;<a href="README.pt-BR.md">Português (Brasil)</a>&nbsp;·&nbsp;<a href="README.it.md">Italiano</a>&nbsp;·&nbsp;<a href="README.ja.md">日本語</a>&nbsp;·&nbsp;<a href="README.ko.md">한국어</a>&nbsp;·&nbsp;<a href="README.zh-Hans.md">简体中文</a>&nbsp;·&nbsp;<a href="README.tr.md">Türkçe</a>&nbsp;·&nbsp;<a href="README.az.md">Azərbaycanca</a>&nbsp;·&nbsp;<a href="README.hi.md">हिन्दी</a>&nbsp;·&nbsp;<a href="README.vi.md">Tiếng Việt</a>&nbsp;·&nbsp;<a href="README.el.md">Ελληνικά</a>&nbsp;·&nbsp;<a href="README.ru.md">Русский</a>
   <br>
   <sub>Tradución do README en inglés. Se algo non coincide, manda o inglés.</sub>
 </p>
@@ -70,7 +70,7 @@ Leva o punteiro ao centro da barra de menús e a corda baixa. Apártao e desapar
 | Esvarar dous dedos cara arriba na barra de menús | Recolle a corda. |
 | Facer clic en calquera sitio da barra de menús | Recolle a corda. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | Amosa ou oculta a corda. Cámbiase en Atallo, na barra de menús. |
-| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Busca na corda. |
+| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Busca na corda. Cámbiase en Atallo, na barra de menús. |
 
 <br>
 
@@ -125,8 +125,8 @@ e nada do que penduras sae nunca del.
 | | |
 |:--|:--|
 | **Compatibilidade** | macOS 14 Sonoma ou posterior, en Mac con Apple silicon ou Intel. Pensado para macOS 27. |
-| **Tamaño** | 3,5 MB |
-| **Idiomas** | Inglés, español, galego, francés, portugués do Brasil, italiano, xaponés, coreano, chinés simplificado, turco, acerbaixano, hindi e vietnamita |
+| **Tamaño** | 5,1 MB |
+| **Idiomas** | Inglés, español, galego, francés, portugués do Brasil, italiano, xaponés, coreano, chinés simplificado, turco, acerbaixano, hindi, vietnamita, grego e ruso |
 | **Feito con** | Swift, AppKit e SwiftUI |
 | **Conexión a internet** | Non a usa |
 | **Prezo** | De balde |

@@ -12,7 +12,7 @@
   &nbsp;&nbsp;
   <a href="#compiler-depuis-le-code-source">Compiler depuis le code source&nbsp;&rsaquo;</a>
   <br><br>
-  <a href="../../README.md">English</a>&nbsp;·&nbsp;<a href="README.es.md">Español</a>&nbsp;·&nbsp;<a href="README.gl.md">Galego</a>&nbsp;·&nbsp;Français&nbsp;·&nbsp;<a href="README.pt-BR.md">Português (Brasil)</a>&nbsp;·&nbsp;<a href="README.it.md">Italiano</a>&nbsp;·&nbsp;<a href="README.ja.md">日本語</a>&nbsp;·&nbsp;<a href="README.ko.md">한국어</a>&nbsp;·&nbsp;<a href="README.zh-Hans.md">简体中文</a>&nbsp;·&nbsp;<a href="README.tr.md">Türkçe</a>&nbsp;·&nbsp;<a href="README.az.md">Azərbaycanca</a>&nbsp;·&nbsp;<a href="README.hi.md">हिन्दी</a>&nbsp;·&nbsp;<a href="README.vi.md">Tiếng Việt</a>
+  <a href="../../README.md">English</a>&nbsp;·&nbsp;<a href="README.es.md">Español</a>&nbsp;·&nbsp;<a href="README.gl.md">Galego</a>&nbsp;·&nbsp;Français&nbsp;·&nbsp;<a href="README.pt-BR.md">Português (Brasil)</a>&nbsp;·&nbsp;<a href="README.it.md">Italiano</a>&nbsp;·&nbsp;<a href="README.ja.md">日本語</a>&nbsp;·&nbsp;<a href="README.ko.md">한국어</a>&nbsp;·&nbsp;<a href="README.zh-Hans.md">简体中文</a>&nbsp;·&nbsp;<a href="README.tr.md">Türkçe</a>&nbsp;·&nbsp;<a href="README.az.md">Azərbaycanca</a>&nbsp;·&nbsp;<a href="README.hi.md">हिन्दी</a>&nbsp;·&nbsp;<a href="README.vi.md">Tiếng Việt</a>&nbsp;·&nbsp;<a href="README.el.md">Ελληνικά</a>&nbsp;·&nbsp;<a href="README.ru.md">Русский</a>
   <br>
   <sub>Traduction du README anglais. En cas de différence, l’anglais fait foi.</sub>
 </p>
@@ -70,7 +70,7 @@ Posez le pointeur au milieu de la barre des menus et la corde descend. Éloignez
 | Balayer vers le haut à deux doigts dans la barre des menus | Range la corde. |
 | Cliquer n’importe où dans la barre des menus | La range. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | Affiche ou masque la corde. Modifiable dans Raccourci, dans la barre des menus. |
-| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Recherche sur la corde. |
+| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Recherche sur la corde. Modifiable dans Raccourci, dans la barre des menus. |
 
 <br>
 
@@ -126,8 +126,8 @@ et rien de ce que vous accrochez ne le quitte jamais.
 | | |
 |:--|:--|
 | **Compatibilité** | macOS 14 Sonoma ou version ultérieure, sur Mac Apple silicon et Intel. Conçu pour macOS 27. |
-| **Taille** | 3,5 Mo |
-| **Langues** | Anglais, espagnol, galicien, français, portugais du Brésil, italien, japonais, coréen, chinois simplifié, turc, azerbaïdjanais, hindi et vietnamien |
+| **Taille** | 5,1 Mo |
+| **Langues** | Anglais, espagnol, galicien, français, portugais du Brésil, italien, japonais, coréen, chinois simplifié, turc, azerbaïdjanais, hindi, vietnamien, grec et russe |
 | **Conçu avec** | Swift, AppKit et SwiftUI |
 | **Accès au réseau** | Aucun |
 | **Prix** | Gratuit |

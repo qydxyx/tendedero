@@ -67,6 +67,7 @@ struct GrabArea: NSViewRepresentable {
             // Items say themselves whether they can be used.
             menu.autoenablesItems = false
             menu.addItem(ClosureMenuItem(L("Copy")) { line.copy(id) })
+            menu.addItem(ClosureMenuItem(L("Copy Path")) { line.copyPath([id]) })
             menu.addItem(ClosureMenuItem(L("Open")) { line.openFile(id) })
             if isText(item.url), Note.cached(item.url)?.link != nil {
                 menu.addItem(ClosureMenuItem(L("Open Link")) { line.openLink(id) })
@@ -135,6 +136,7 @@ struct GrabArea: NSViewRepresentable {
         menu.addItem(count)
         menu.addItem(.separator())
         menu.addItem(ClosureMenuItem(L("Copy")) { line.copy(ids) })
+        menu.addItem(ClosureMenuItem(L("Copy Paths")) { line.copyPath(ids) })
         menu.addItem(ClosureMenuItem(L("Open")) { line.open(ids) })
         menu.addItem(ClosureMenuItem(L("Show in Finder")) { line.reveal(ids) })
         if let view, let window = view.window {
@@ -209,6 +211,7 @@ final class GrabView: NSView, NSDraggingSource {
     private var startedDrag = false
     private var holdTimer: Timer?
     private var didLongPress = false
+    private var pressedCross = false
     /// A click copies only once it is clear it is not the first half of a
     /// double click, which opens the photo and must leave the clipboard alone.
     private static var clickTimer: Timer?
@@ -233,6 +236,7 @@ final class GrabView: NSView, NSDraggingSource {
     override func mouseDown(with event: NSEvent) {
         Self.clickTimer?.invalidate()
         Self.clickTimer = nil
+        pressedCross = false
         if event.modifierFlags.contains(.shift) {
             downPoint = nil
             endPress()
@@ -247,7 +251,7 @@ final class GrabView: NSView, NSDraggingSource {
         }
         if isInCross(event) {
             downPoint = nil
-            onDiscard()
+            pressedCross = true
             return
         }
         if event.clickCount == 2 {
@@ -333,6 +337,12 @@ final class GrabView: NSView, NSDraggingSource {
 
     override func mouseUp(with event: NSEvent) {
         endPress()
+        if pressedCross {
+            pressedCross = false
+            downPoint = nil
+            if isInCross(event) { onDiscard() }
+            return
+        }
         if downPoint != nil && !startedDrag && !didLongPress && event.clickCount == 1 {
             onPlainClick()
             // Waits as long as the system lets a second click count as a double click.
