@@ -12,6 +12,8 @@
 "Screenshots" = "スクリーンショット";
 "Handle screenshots" = "スクリーンショットを任せる";
 "Screenshots hang instantly and skip the Desktop" = "撮った瞬間に吊るされ、デスクトップを経由しません";
+"Copy each screenshot" = "スクリーンショットを毎回コピー";
+"Each new screenshot goes to the clipboard as it hangs" = "新しいスクリーンショットは吊るされると同時にクリップボードにコピーされます";
 "Open screenshots folder" = "スクリーンショットのフォルダを開く";
 "Sounds" = "サウンド";
 "Open at login" = "ログイン時に開く";
@@ -56,6 +58,8 @@
 
 /* GrabArea */
 "Copy" = "コピー";
+"Copy Path" = "パスをコピー";
+"Copy Paths" = "パスをコピー";
 "Open" = "開く";
 "Open Link" = "リンクを開く";
 "Quick Look" = "クイックルック";

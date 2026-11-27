@@ -12,7 +12,7 @@
   &nbsp;&nbsp;
   <a href="#compila-dal-codice-sorgente">Compila dal codice sorgente&nbsp;&rsaquo;</a>
   <br><br>
-  <a href="../../README.md">English</a>&nbsp;·&nbsp;<a href="README.es.md">Español</a>&nbsp;·&nbsp;<a href="README.gl.md">Galego</a>&nbsp;·&nbsp;<a href="README.fr.md">Français</a>&nbsp;·&nbsp;<a href="README.pt-BR.md">Português (Brasil)</a>&nbsp;·&nbsp;Italiano&nbsp;·&nbsp;<a href="README.ja.md">日本語</a>&nbsp;·&nbsp;<a href="README.ko.md">한국어</a>&nbsp;·&nbsp;<a href="README.zh-Hans.md">简体中文</a>&nbsp;·&nbsp;<a href="README.tr.md">Türkçe</a>&nbsp;·&nbsp;<a href="README.az.md">Azərbaycanca</a>&nbsp;·&nbsp;<a href="README.hi.md">हिन्दी</a>&nbsp;·&nbsp;<a href="README.vi.md">Tiếng Việt</a>
+  <a href="../../README.md">English</a>&nbsp;·&nbsp;<a href="README.es.md">Español</a>&nbsp;·&nbsp;<a href="README.gl.md">Galego</a>&nbsp;·&nbsp;<a href="README.fr.md">Français</a>&nbsp;·&nbsp;<a href="README.pt-BR.md">Português (Brasil)</a>&nbsp;·&nbsp;Italiano&nbsp;·&nbsp;<a href="README.ja.md">日本語</a>&nbsp;·&nbsp;<a href="README.ko.md">한국어</a>&nbsp;·&nbsp;<a href="README.zh-Hans.md">简体中文</a>&nbsp;·&nbsp;<a href="README.tr.md">Türkçe</a>&nbsp;·&nbsp;<a href="README.az.md">Azərbaycanca</a>&nbsp;·&nbsp;<a href="README.hi.md">हिन्दी</a>&nbsp;·&nbsp;<a href="README.vi.md">Tiếng Việt</a>&nbsp;·&nbsp;<a href="README.el.md">Ελληνικά</a>&nbsp;·&nbsp;<a href="README.ru.md">Русский</a>
   <br>
   <sub>Traduzione del README in inglese. In caso di differenze, fa fede la versione inglese.</sub>
 </p>
@@ -70,7 +70,7 @@ Porta il puntatore al centro della barra dei menu e il filo scende. Allontanalo 
 | Scorrere due dita verso l'alto nella barra dei menu | Ritira il filo. |
 | Fare clic in un punto qualsiasi della barra dei menu | Ritira il filo. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | Mostra o nasconde il filo. Si cambia in Scorciatoia, nella barra dei menu. |
-| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Cerca sul filo. |
+| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Cerca sul filo. Si cambia in Scorciatoia, nella barra dei menu. |
 
 <br>
 
@@ -126,8 +126,8 @@ e nulla di ciò che appendi lo lascia mai.
 | | |
 |:--|:--|
 | **Compatibilità** | macOS 14 Sonoma o successivi, su Mac con Apple silicon o Intel. Pensata per macOS 27. |
-| **Dimensioni** | 3,5 MB |
-| **Lingue** | Inglese, spagnolo, galiziano, francese, portoghese (Brasile), italiano, giapponese, coreano, cinese semplificato, turco, azero, hindi e vietnamita |
+| **Dimensioni** | 5,1 MB |
+| **Lingue** | Inglese, spagnolo, galiziano, francese, portoghese (Brasile), italiano, giapponese, coreano, cinese semplificato, turco, azero, hindi, vietnamita, greco e russo |
 | **Realizzata con** | Swift, AppKit e SwiftUI |
 | **Accesso alla rete** | Nessuno |
 | **Prezzo** | Gratuita |

@@ -12,7 +12,7 @@
   &nbsp;&nbsp;
   <a href="#सोर्स-से-बनाएँ">सोर्स से बनाएँ&nbsp;&rsaquo;</a>
   <br><br>
-  <a href="../../README.md">English</a>&nbsp;·&nbsp;<a href="README.es.md">Español</a>&nbsp;·&nbsp;<a href="README.gl.md">Galego</a>&nbsp;·&nbsp;<a href="README.fr.md">Français</a>&nbsp;·&nbsp;<a href="README.pt-BR.md">Português (Brasil)</a>&nbsp;·&nbsp;<a href="README.it.md">Italiano</a>&nbsp;·&nbsp;<a href="README.ja.md">日本語</a>&nbsp;·&nbsp;<a href="README.ko.md">한국어</a>&nbsp;·&nbsp;<a href="README.zh-Hans.md">简体中文</a>&nbsp;·&nbsp;<a href="README.tr.md">Türkçe</a>&nbsp;·&nbsp;<a href="README.az.md">Azərbaycanca</a>&nbsp;·&nbsp;हिन्दी&nbsp;·&nbsp;<a href="README.vi.md">Tiếng Việt</a>
+  <a href="../../README.md">English</a>&nbsp;·&nbsp;<a href="README.es.md">Español</a>&nbsp;·&nbsp;<a href="README.gl.md">Galego</a>&nbsp;·&nbsp;<a href="README.fr.md">Français</a>&nbsp;·&nbsp;<a href="README.pt-BR.md">Português (Brasil)</a>&nbsp;·&nbsp;<a href="README.it.md">Italiano</a>&nbsp;·&nbsp;<a href="README.ja.md">日本語</a>&nbsp;·&nbsp;<a href="README.ko.md">한국어</a>&nbsp;·&nbsp;<a href="README.zh-Hans.md">简体中文</a>&nbsp;·&nbsp;<a href="README.tr.md">Türkçe</a>&nbsp;·&nbsp;<a href="README.az.md">Azərbaycanca</a>&nbsp;·&nbsp;हिन्दी&nbsp;·&nbsp;<a href="README.vi.md">Tiếng Việt</a>&nbsp;·&nbsp;<a href="README.el.md">Ελληνικά</a>&nbsp;·&nbsp;<a href="README.ru.md">Русский</a>
   <br>
   <sub>अंग्रेज़ी README का अनुवाद। कहीं फ़र्क़ हो तो अंग्रेज़ी वाला ही मान्य है।</sub>
 </p>
@@ -70,7 +70,7 @@
 | मेनू बार में दो उँगलियों से ऊपर स्वाइप करें | रस्सी ऊपर कर दें। |
 | मेनू बार में कहीं भी क्लिक करें | रस्सी ऊपर कर दें। |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | रस्सी दिखाएँ या छिपाएँ। मेनू बार में शॉर्टकट से इसे बदलें। |
-| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | रस्सी पर खोजें। |
+| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | रस्सी पर खोजें। मेनू बार में शॉर्टकट से इसे बदलें। |
 
 <br>
 
@@ -125,8 +125,8 @@ Tendedero पूरी तरह आपके Mac पर चलता है, �
 | | |
 |:--|:--|
 | **संगतता** | macOS 14 Sonoma या उसके बाद, Apple silicon और Intel दोनों पर। macOS 27 के लिए बनाया गया। |
-| **आकार** | 3.5 MB |
-| **भाषाएँ** | अंग्रेज़ी, स्पेनिश, गैलिशियन, फ़्रेंच, पुर्तगाली (ब्राज़ील), इतालवी, जापानी, कोरियाई, चीनी (सरलीकृत), तुर्की, अज़रबैजानी, हिन्दी और वियतनामी |
+| **आकार** | 5.1 MB |
+| **भाषाएँ** | अंग्रेज़ी, स्पेनिश, गैलिशियन, फ़्रेंच, पुर्तगाली (ब्राज़ील), इतालवी, जापानी, कोरियाई, चीनी (सरलीकृत), तुर्की, अज़रबैजानी, हिन्दी, वियतनामी, यूनानी और रूसी |
 | **किससे बना** | Swift, AppKit और SwiftUI |
 | **इंटरनेट** | ज़रूरत नहीं |
 | **क़ीमत** | मुफ़्त |

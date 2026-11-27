@@ -12,7 +12,7 @@
   &nbsp;&nbsp;
   <a href="#tự-biên-dịch-từ-mã-nguồn">Tự biên dịch từ mã nguồn&nbsp;&rsaquo;</a>
   <br><br>
-  <a href="../../README.md">English</a>&nbsp;·&nbsp;<a href="README.es.md">Español</a>&nbsp;·&nbsp;<a href="README.gl.md">Galego</a>&nbsp;·&nbsp;<a href="README.fr.md">Français</a>&nbsp;·&nbsp;<a href="README.pt-BR.md">Português (Brasil)</a>&nbsp;·&nbsp;<a href="README.it.md">Italiano</a>&nbsp;·&nbsp;<a href="README.ja.md">日本語</a>&nbsp;·&nbsp;<a href="README.ko.md">한국어</a>&nbsp;·&nbsp;<a href="README.zh-Hans.md">简体中文</a>&nbsp;·&nbsp;<a href="README.tr.md">Türkçe</a>&nbsp;·&nbsp;<a href="README.az.md">Azərbaycanca</a>&nbsp;·&nbsp;<a href="README.hi.md">हिन्दी</a>&nbsp;·&nbsp;Tiếng Việt
+  <a href="../../README.md">English</a>&nbsp;·&nbsp;<a href="README.es.md">Español</a>&nbsp;·&nbsp;<a href="README.gl.md">Galego</a>&nbsp;·&nbsp;<a href="README.fr.md">Français</a>&nbsp;·&nbsp;<a href="README.pt-BR.md">Português (Brasil)</a>&nbsp;·&nbsp;<a href="README.it.md">Italiano</a>&nbsp;·&nbsp;<a href="README.ja.md">日本語</a>&nbsp;·&nbsp;<a href="README.ko.md">한국어</a>&nbsp;·&nbsp;<a href="README.zh-Hans.md">简体中文</a>&nbsp;·&nbsp;<a href="README.tr.md">Türkçe</a>&nbsp;·&nbsp;<a href="README.az.md">Azərbaycanca</a>&nbsp;·&nbsp;<a href="README.hi.md">हिन्दी</a>&nbsp;·&nbsp;Tiếng Việt&nbsp;·&nbsp;<a href="README.el.md">Ελληνικά</a>&nbsp;·&nbsp;<a href="README.ru.md">Русский</a>
   <br>
   <sub>Bản dịch từ README tiếng Anh. Nếu có khác biệt, bản tiếng Anh là bản chuẩn.</sub>
 </p>
@@ -70,7 +70,7 @@ Mỗi ảnh chụp màn hình bạn tạo ra, và mọi thứ bạn sao chép, �
 | Vuốt hai ngón lên trên thanh menu | Thu gọn dây phơi. |
 | Nhấp vào bất kỳ đâu trên thanh menu | Thu gọn dây phơi. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | Hiện hoặc ẩn dây phơi. Đổi phím tắt tại mục Phím tắt trên thanh menu. |
-| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Tìm trên dây phơi. |
+| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | Tìm trên dây phơi. Đổi phím tắt tại mục Phím tắt trên thanh menu. |
 
 <br>
 
@@ -123,8 +123,8 @@ và không gì bạn treo lên dây rời khỏi máy.
 | | |
 |:--|:--|
 | **Tương thích** | macOS 14 Sonoma trở lên, hỗ trợ Apple silicon và Intel. Thiết kế cho macOS 27. |
-| **Dung lượng** | 3,5 MB |
-| **Ngôn ngữ** | Tiếng Anh, Tây Ban Nha, Galicia, Pháp, Bồ Đào Nha (Brazil), Ý, Nhật, Hàn, Trung giản thể, Thổ Nhĩ Kỳ, Azerbaijan, Hindi, Việt |
+| **Dung lượng** | 5,1 MB |
+| **Ngôn ngữ** | Tiếng Anh, Tây Ban Nha, Galicia, Pháp, Bồ Đào Nha (Brazil), Ý, Nhật, Hàn, Trung giản thể, Thổ Nhĩ Kỳ, Azerbaijan, Hindi, Việt, Hy Lạp, Nga |
 | **Công nghệ** | Swift, AppKit và SwiftUI |
 | **Truy cập mạng** | Không |
 | **Giá** | Miễn phí |

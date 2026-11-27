@@ -12,7 +12,7 @@
   &nbsp;&nbsp;
   <a href="#소스에서-빌드하기">소스에서 빌드하기&nbsp;&rsaquo;</a>
   <br><br>
-  <a href="../../README.md">English</a>&nbsp;·&nbsp;<a href="README.es.md">Español</a>&nbsp;·&nbsp;<a href="README.gl.md">Galego</a>&nbsp;·&nbsp;<a href="README.fr.md">Français</a>&nbsp;·&nbsp;<a href="README.pt-BR.md">Português (Brasil)</a>&nbsp;·&nbsp;<a href="README.it.md">Italiano</a>&nbsp;·&nbsp;<a href="README.ja.md">日本語</a>&nbsp;·&nbsp;한국어&nbsp;·&nbsp;<a href="README.zh-Hans.md">简体中文</a>&nbsp;·&nbsp;<a href="README.tr.md">Türkçe</a>&nbsp;·&nbsp;<a href="README.az.md">Azərbaycanca</a>&nbsp;·&nbsp;<a href="README.hi.md">हिन्दी</a>&nbsp;·&nbsp;<a href="README.vi.md">Tiếng Việt</a>
+  <a href="../../README.md">English</a>&nbsp;·&nbsp;<a href="README.es.md">Español</a>&nbsp;·&nbsp;<a href="README.gl.md">Galego</a>&nbsp;·&nbsp;<a href="README.fr.md">Français</a>&nbsp;·&nbsp;<a href="README.pt-BR.md">Português (Brasil)</a>&nbsp;·&nbsp;<a href="README.it.md">Italiano</a>&nbsp;·&nbsp;<a href="README.ja.md">日本語</a>&nbsp;·&nbsp;한국어&nbsp;·&nbsp;<a href="README.zh-Hans.md">简体中文</a>&nbsp;·&nbsp;<a href="README.tr.md">Türkçe</a>&nbsp;·&nbsp;<a href="README.az.md">Azərbaycanca</a>&nbsp;·&nbsp;<a href="README.hi.md">हिन्दी</a>&nbsp;·&nbsp;<a href="README.vi.md">Tiếng Việt</a>&nbsp;·&nbsp;<a href="README.el.md">Ελληνικά</a>&nbsp;·&nbsp;<a href="README.ru.md">Русский</a>
   <br>
   <sub>영어 README를 번역한 문서예요. 내용이 다를 경우 영어 원문이 우선해요.</sub>
 </p>
@@ -70,7 +70,7 @@
 | 메뉴 막대에서 두 손가락으로 위로 쓸기 | 빨랫줄을 치워요. |
 | 메뉴 막대의 아무 곳이나 클릭 | 빨랫줄을 치워요. |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | 빨랫줄을 보거나 가려요. 메뉴 막대의 단축키에서 바꿀 수 있어요. |
-| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | 빨랫줄에서 찾아요. |
+| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | 빨랫줄에서 찾아요. 메뉴 막대의 단축키에서 바꿀 수 있어요. |
 
 <br>
 
@@ -123,8 +123,8 @@ Tendedero는 스크린샷 속 텍스트 읽기까지 전적으로 Mac에서만 �
 | | |
 |:--|:--|
 | **호환성** | Apple 실리콘 및 Intel 기반 Mac의 macOS 14 Sonoma 이상. macOS 27에 맞춰 디자인됨. |
-| **크기** | 3.5MB |
-| **언어** | 영어, 스페인어, 갈리시아어, 프랑스어, 포르투갈어(브라질), 이탈리아어, 일본어, 한국어, 중국어(간체), 튀르키예어, 아제르바이잔어, 힌디어, 베트남어 |
+| **크기** | 5.1MB |
+| **언어** | 영어, 스페인어, 갈리시아어, 프랑스어, 포르투갈어(브라질), 이탈리아어, 일본어, 한국어, 중국어(간체), 튀르키예어, 아제르바이잔어, 힌디어, 베트남어, 그리스어, 러시아어 |
 | **개발 도구** | Swift, AppKit 및 SwiftUI |
 | **네트워크 접근** | 없음 |
 | **가격** | 무료 |

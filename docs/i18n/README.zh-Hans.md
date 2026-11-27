@@ -12,7 +12,7 @@
   &nbsp;&nbsp;
   <a href="#从源码构建">从源码构建&nbsp;&rsaquo;</a>
   <br><br>
-  <a href="../../README.md">English</a>&nbsp;·&nbsp;<a href="README.es.md">Español</a>&nbsp;·&nbsp;<a href="README.gl.md">Galego</a>&nbsp;·&nbsp;<a href="README.fr.md">Français</a>&nbsp;·&nbsp;<a href="README.pt-BR.md">Português (Brasil)</a>&nbsp;·&nbsp;<a href="README.it.md">Italiano</a>&nbsp;·&nbsp;<a href="README.ja.md">日本語</a>&nbsp;·&nbsp;<a href="README.ko.md">한국어</a>&nbsp;·&nbsp;简体中文&nbsp;·&nbsp;<a href="README.tr.md">Türkçe</a>&nbsp;·&nbsp;<a href="README.az.md">Azərbaycanca</a>&nbsp;·&nbsp;<a href="README.hi.md">हिन्दी</a>&nbsp;·&nbsp;<a href="README.vi.md">Tiếng Việt</a>
+  <a href="../../README.md">English</a>&nbsp;·&nbsp;<a href="README.es.md">Español</a>&nbsp;·&nbsp;<a href="README.gl.md">Galego</a>&nbsp;·&nbsp;<a href="README.fr.md">Français</a>&nbsp;·&nbsp;<a href="README.pt-BR.md">Português (Brasil)</a>&nbsp;·&nbsp;<a href="README.it.md">Italiano</a>&nbsp;·&nbsp;<a href="README.ja.md">日本語</a>&nbsp;·&nbsp;<a href="README.ko.md">한국어</a>&nbsp;·&nbsp;简体中文&nbsp;·&nbsp;<a href="README.tr.md">Türkçe</a>&nbsp;·&nbsp;<a href="README.az.md">Azərbaycanca</a>&nbsp;·&nbsp;<a href="README.hi.md">हिन्दी</a>&nbsp;·&nbsp;<a href="README.vi.md">Tiếng Việt</a>&nbsp;·&nbsp;<a href="README.el.md">Ελληνικά</a>&nbsp;·&nbsp;<a href="README.ru.md">Русский</a>
   <br>
   <sub>本文译自英文 README。如有出入，以英文版为准。</sub>
 </p>
@@ -70,7 +70,7 @@
 | 在菜单栏双指向上滑动 | 把绳子收起来。 |
 | 点击菜单栏任意处 | 把绳子收起来。 |
 | <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>T</kbd> | 显示或隐藏绳子。可在菜单栏的「快捷键」中更改。 |
-| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | 在晾衣绳上搜索。 |
+| <kbd>⌃</kbd>&thinsp;<kbd>⌥</kbd>&thinsp;<kbd>F</kbd> | 在晾衣绳上搜索。可在菜单栏的「快捷键」中更改。 |
 
 <br>
 
@@ -117,8 +117,8 @@ Tendedero 完全在你的 Mac 上运行，连识别截图中的文字也不例�
 | | |
 |:--|:--|
 | **兼容性** | macOS 14 Sonoma 及以上，Apple 芯片与 Intel 均支持。已针对 macOS 27 设计。 |
-| **体积** | 3.5 MB |
-| **语言** | 英语、西班牙语、加利西亚语、法语、巴西葡萄牙语、意大利语、日语、韩语、简体中文、土耳其语、阿塞拜疆语、印地语、越南语 |
+| **体积** | 5.1 MB |
+| **语言** | 英语、西班牙语、加利西亚语、法语、巴西葡萄牙语、意大利语、日语、韩语、简体中文、土耳其语、阿塞拜疆语、印地语、越南语、希腊语、俄语 |
 | **技术栈** | Swift、AppKit 与 SwiftUI |
 | **网络访问** | 无 |
 | **价格** | 免费 |
